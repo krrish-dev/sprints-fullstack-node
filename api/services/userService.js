@@ -56,8 +56,30 @@ const logoutUser = async (userId) => {
     }
   };
 
+
+  const savePasswordResetToken = async (email, token) => {
+    try {
+      // Find the user by email and update the password reset token and its expiration time
+      await User.findOneAndUpdate({ email }, { passwordResetToken: token, passwordResetExpires: Date.now() + 900000 /* 15 minutes */ });
+    } catch (error) {
+      throw error;
+    }
+  };
+  
+  const resetUserPassword = async (email, password) => {
+    try {
+      // Find the user by email and update the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await User.findOneAndUpdate({ email }, { password: hashedPassword, passwordResetToken: null, passwordResetExpires: null });
+    } catch (error) {
+      throw error;
+    }
+  };
+  
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  savePasswordResetToken,
+  resetUserPassword,
 };
