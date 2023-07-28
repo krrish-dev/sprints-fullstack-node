@@ -1,7 +1,7 @@
-// controllers/userController.js
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken');
 const { z } = require('zod');
+const nodemailer = require('nodemailer');
 
 const registerSchema = z.object({
   name: z.string(),
@@ -13,6 +13,21 @@ const loginUserSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 });
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+const resetPasswordSchema = z.object({
+  token: z.string(),
+  password: z.string().min(6),
+});
+
+// Helper function to validate the new password
+const isValidPassword = (password) => {
+  // Add your password validation logic here, e.g., check minimum length, complexity, etc.
+  return password.length >= 6;
+};
 
 const registerUser = async (req, res) => {
   try {
@@ -42,11 +57,80 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
+  try {
+    await userService.logoutUser(req.user.userId);
+    return res.status(200).json({ message: 'Logout successful' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error logging out' });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = forgotPasswordSchema.parse(req.body);
+
+    // Generate a unique password reset token
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+    // Save the token and its expiration time in the user's document in the database
+    await userService.savePasswordResetToken(email, token);
+
+    // Send the password reset email containing the reset link with the token as a query parameter
+    await sendPasswordResetEmail(email, token);
+
+    return res.status(200).json({ message: 'Password reset email sent successfully' });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token, password } = resetPasswordSchema.parse(req.body);
+
+    // Verify the token and get the associated email
+    const { email } = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Validate the new password
+    if (!isValidPassword(password)) {
+      throw new Error('Invalid password');
+    }
+
+    // Reset the user's password in the database
+    await userService.resetUserPassword(email, password);
+
+    return res.status(200).json({ message: 'Password reset successful' });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+// Nodemailer function to send the password reset email
+const sendPasswordResetEmail = async (email, token) => {
     try {
-      await userService.logoutUser(req.user.userId);
-      return res.status(200).json({ message: 'Logout successful' });
+      // Create a Nodemailer transporter using SMTP with your personal email credentials
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: false,
+        auth: {
+          user: 'teamcodemaster@gmail.com', // Replace with your Gmail email address
+          pass: 'qxtgcdlaxzkhdnin', // Replace with your Gmail email password or app-specific password
+        },
+      });
+  
+      const mailOptions = {
+        from: 'teamcodemaster@gmail.com', // Replace with your email address
+        to: email,
+        subject: 'Password Reset',
+        text: `Click the following link to reset your password: ${process.env.APP_URL}/reset-password?token=${token}`,
+      };
+  
+      // Send the email
+      await transporter.sendMail(mailOptions);
     } catch (error) {
-      return res.status(500).json({ message: 'Error logging out' });
+      throw error;
     }
   };
 
@@ -54,4 +138,6 @@ module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  forgotPassword,
+  resetPassword,
 };
