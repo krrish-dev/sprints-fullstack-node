@@ -6,10 +6,12 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   token: { type: String }, // For storing tokens (e.g., Google login token)
+  passwordResetToken: { type: String }, // Field to store the password reset token
+  passwordResetExpires: { type: Date }, // Field to store the password reset token's expiration time
   gender: { type: String }, // 'male', 'female', 'other', etc.
   address1: { type: String },
   address2: { type: String },
-  phonenum: { type: String },
+  phone: { type: String },
   country: { type: String },
   state: { type: String },
   isAdmin: { type: Boolean, default: false }, // For admin rank
