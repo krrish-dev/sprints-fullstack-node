@@ -1,0 +1,60 @@
+POST http://localhost:3000/product
+Content-Type: application/json
+
+{
+    "title": "toBeDeleted",
+    "buyingPrice": 3000,
+    "price": 3800,
+    "amount": 40,
+    "img": ["https://iili.io/HZzKxaI.jpg",
+"https://iili.io/HZzKo3N.jpg",
+"https://iili.io/HZzKC4p.jpg"],
+    "description": "Timberland PRO Men's Base Plate Short Sleeve T-Shirt with Chest Logo",
+    "keywords": "Timberland  Chest Logo",
+    "category":"menTops"
+}
+###
+
+PUT http://localhost:3000/product
+Content-Type: application/json
+
+{
+    "productId": "64c3fa6ab8de91b71f3eda25",
+    "img":[
+        "https://iili.io/HZxyYtp.jpg",
+        "https://iili.io/HZxy7NR.jpg",
+        "https://iili.io/HZxy5Av.jpg"
+    ]
+}
+### getting products without any filters, note that the result will be paginated with default limit 8 items per page
+GET http://localhost:3000/product
+### getting the products by search expression
+GET http://localhost:3000/product?expr=women
+### change the item per page count, this will retuen two products
+GET http://localhost:3000/product?limit=2
+### use the next and previous in the response of GET product to get the next or previous page
+GET http://localhost:3000/product?limit=2&page=2
+### getting products limited by pric, here only above 3000$ products will be returned
+GET http://localhost:3000/product?from=3000
+### products under 3000 will be returned 
+GET http://localhost:3000/product?to=3000
+### In this example the products prices range between  10$ and 100$ 
+GET http://localhost:3000/product?to=100&from=10
+### Category filter example
+GET http://localhost:3000/product?category=WomenShoes
+### plz note that u can use all the parameters together in one url
+GET http://localhost:3000/product?category=WomenTop&from=340&to=450&limit=2
+
+### delete product 64c40d97b0c91e98225ea3f4
+DELETE http://localhost:3000/product/64c40d97b0c91e98225ea3f4
+### this API not ready yet
+POST http://localhost:3000/cartItem
+Content-Type: application/json
+
+{
+    "product": "64c3f57d55a84f4e8bce4598",
+    "price": 200,
+    "itemsCount":4
+}
+###
+GET http://localhost:3000/cart

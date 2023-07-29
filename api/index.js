@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 const { authenticateToken } = require('./utils/authentication');
 
 dotenv.config();
@@ -20,6 +22,8 @@ mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // Routes
 app.use('/', authRoutes);
+app.use(productRoutes);
+app.use(cartRoutes);
 
 // Example protected route
 app.get('/admin', authenticateToken, (req, res) => {
