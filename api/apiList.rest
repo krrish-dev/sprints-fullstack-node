@@ -1,4 +1,24 @@
+### Auth APIs
+### registe new user
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "name":"Fouad Abdelhady",
+    "email":"fyoussef23@gmail.com",
+    "password":"123456789"
+}
+### login 
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email":"fyoussef23@gmail.com", 
+    "password":"123456789"
+}
+###
 POST http://localhost:3000/product
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
 Content-Type: application/json
 
 {
@@ -7,15 +27,15 @@ Content-Type: application/json
     "price": 3800,
     "amount": 40,
     "img": ["https://iili.io/HZzKxaI.jpg",
-"https://iili.io/HZzKo3N.jpg",
-"https://iili.io/HZzKC4p.jpg"],
+            "https://iili.io/HZzKo3N.jpg",
+            "https://iili.io/HZzKC4p.jpg"],
     "description": "Timberland PRO Men's Base Plate Short Sleeve T-Shirt with Chest Logo",
     "keywords": "Timberland  Chest Logo",
     "category":"menTops"
 }
 ###
-
 PUT http://localhost:3000/product
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
 Content-Type: application/json
 
 {
@@ -49,12 +69,25 @@ GET http://localhost:3000/product?category=WomenTop&from=340&to=450&limit=2
 DELETE http://localhost:3000/product/64c40d97b0c91e98225ea3f4
 ### this API not ready yet
 POST http://localhost:3000/cartItem
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
 Content-Type: application/json
 
 {
-    "product": "64c3f57d55a84f4e8bce4598",
-    "price": 200,
-    "itemsCount":4
+    "product": "64c3f64f55a84f4e8bce459a",
+    "itemsCount":1
 }
-###
+### delete cart item from cart
+DELETE  http://localhost:3000/cartItem/64c3f64f55a84f4e8bce459a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
+### Get user Cart 
 GET http://localhost:3000/cart
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
+### To update any cart Item count send the new count and the product id to the body see the example below
+PUT http://localhost:3000/cartItem
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
+Content-Type: application/json
+
+{
+    "count": 1,
+    "productId":"64c3f64f55a84f4e8bce459a"
+}

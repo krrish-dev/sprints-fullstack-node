@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
-const { authenticateToken } = require('./utils/authentication');
+const { authenticateToken } = require('./utils/authorization');
 
 dotenv.config();
 const app = express();
