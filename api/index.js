@@ -1,5 +1,6 @@
 // index.js
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
@@ -15,6 +16,7 @@ const DB_URI = process.env.DB_URI;
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Connect to the database
 mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
