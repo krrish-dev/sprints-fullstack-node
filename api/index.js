@@ -1,8 +1,10 @@
 // index.js
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
+const categoriesRoutes = require('./routes/categoriesRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
@@ -16,6 +18,7 @@ const DB_URI = process.env.DB_URI;
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Connect to the database
 mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,6 +28,7 @@ mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 // Routes
 app.use(cors());
 app.use('/', authRoutes);
+app.use(categoriesRoutes);
 app.use(productRoutes);
 app.use(cartRoutes);
 app.use(orderRoutes);

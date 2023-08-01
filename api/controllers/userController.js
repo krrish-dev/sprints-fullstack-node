@@ -120,7 +120,7 @@ const sendPasswordResetEmail = async (email, token) => {
       from: 'teamcodemaster@gmail.com', // Replace with your email address
       to: email,
       subject: 'Password Reset',
-      text: `Click the following link to reset your password: ${process.env.APP_URL}/reset-password?token=${token}`,
+      text: `Click the following link to reset your password: ${process.env.APP_FRONT}/reset-password.html?token=${token}`,
     };
 
     // Send the email
