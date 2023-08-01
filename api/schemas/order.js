@@ -1,21 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const order = {
-    cutomerInfo:{
+    customerInfo:{
         userId: { type: Schema.Types.ObjectId, ref:'User'},
         mobile: { type: String, defalut:""},
         addressLine:{ type: String, defalut: ""},
-        city: { type: String, default:""},
+        district: { type: String, default:""},
         state: { type: String, default:""}
     },
     products:[
         {
             productId:{type: Schema.Types.ObjectId, ref:'Product'},
             title:{type:String, required:true},
-            authorName:{type: String, default:""},
             price:{type:Number, required:true},
             itemsCount:{type: Number, default:1},
-            img:{type:String, default:"*"},
             total:{type:Number, default:0}
         }
     ],
@@ -31,3 +29,13 @@ const orderSchema = new Schema(order,{
 const Order = mongoose.model('Order', orderSchema,);
 
 module.exports = Order;
+
+/*
+{
+    "mobile":"",
+    "addressLine":"",
+    "city":"",
+    "state":"",
+    "paymentMethod":""
+}
+*/

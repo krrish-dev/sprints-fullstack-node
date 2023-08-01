@@ -49,9 +49,9 @@ Content-Type: application/json
 ### getting products without any filters, note that the result will be paginated with default limit 8 items per page
 GET http://localhost:3000/product
 ### getting the products by search expression
-GET http://localhost:3000/product?expr=women
+GET http://localhost:3000/product?expr=men
 ### change the item per page count, this will retuen two products
-GET http://localhost:3000/product?limit=2
+GET http://localhost:3000/product?limit=12
 ### use the next and previous in the response of GET product to get the next or previous page
 GET http://localhost:3000/product?limit=2&page=2
 ### getting products limited by pric, here only above 3000$ products will be returned
@@ -67,14 +67,15 @@ GET http://localhost:3000/product?category=WomenTop&from=340&to=450&limit=2
 
 ### delete product 64c40d97b0c91e98225ea3f4
 DELETE http://localhost:3000/product/64c40d97b0c91e98225ea3f4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
 ### this API not ready yet
 POST http://localhost:3000/cartItem
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
 Content-Type: application/json
 
 {
-    "product": "64c3f64f55a84f4e8bce459a",
-    "itemsCount":1
+    "product": "64c3f57d55a84f4e8bce4598",
+    "itemsCount":2
 }
 ### delete cart item from cart
 DELETE  http://localhost:3000/cartItem/64c3f64f55a84f4e8bce459a
@@ -89,5 +90,30 @@ Content-Type: application/json
 
 {
     "count": 1,
-    "productId":"64c3f64f55a84f4e8bce459a"
+    "productId":"64c3f57d55a84f4e8bce4598"
 }
+###
+POST http://localhost:3000/order
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
+Content-Type: application/json
+
+{
+    "mobile":"01227360505",
+    "addressLine":"Omranya",
+    "district":"Haram",
+    "state":"Giza",
+    "paymentMethod":"CARD"
+}
+###
+POST http://localhost:3000/paymentSuccess
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
+Content-Type: application/json
+
+{
+    "paymentId": null
+}
+###
+GET http://localhost:3000/paymentCanceled
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
+###
+GET http://localhost:3000/order

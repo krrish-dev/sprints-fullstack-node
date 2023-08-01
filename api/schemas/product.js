@@ -9,7 +9,8 @@ const product = {
     img: [String],
     description: { type: String, default:""},
     keywords: { type: String, default:""},
-    category:{type:String, required: true}
+    category:{type:String, required: true},
+    stripPriceId: { type: String, default:""}
 }
 //type: Schema.Types.ObjectId, ref:'Category'
 

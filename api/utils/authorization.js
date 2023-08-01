@@ -62,7 +62,7 @@ function verifyToken(req, res, options = { isAccessToken: true }) {
 }
 
 function checkAuthorization(req, res, action){
-  if(action == constants.Actions.all) return true;
+  if(req.user.userRole == constants.Roles.superAdmin) return true;
   let userRoleActions = constants.AllowedActions[req.user.userRole];
   if(!userRoleActions.includes(action)){
     res.status(401).send({ success: false, message:"Your are not authorized to access this resource." });

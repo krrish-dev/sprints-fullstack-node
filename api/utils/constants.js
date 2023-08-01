@@ -20,7 +20,7 @@ const Actions = {
     updateCategory: "updateCategory",
     getUserOrders: "getUserOrders",
     placeOrder: "placeOrder",
-    allOrdersActions: "allOrdersActions"
+    allOrdersActions: "allOrdersActions",
 }
 const AllowedActions = {
     superadmin: [
