@@ -92,7 +92,9 @@ Content-Type: application/json
     "count": 1,
     "productId":"64c3f57d55a84f4e8bce4598"
 }
-###
+
+### Order and Checkout
+### checkout
 POST http://localhost:3000/order
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
 Content-Type: application/json
@@ -104,7 +106,7 @@ Content-Type: application/json
     "state":"Giza",
     "paymentMethod":"CARD"
 }
-###
+### when the success page opened
 POST http://localhost:3000/paymentSuccess
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
 Content-Type: application/json
@@ -112,8 +114,7 @@ Content-Type: application/json
 {
     "paymentId": null
 }
-###
+
+### when the cancel Page is opened
 GET http://localhost:3000/paymentCanceled
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkwNzI1NjUwfQ.fa1Z1QWqUFnNmwJ7bqvUSKkJm_3WGqIh-l8zidvdIzw
-###
-GET http://localhost:3000/order
