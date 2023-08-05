@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Constants = require('../utils/constants');
 const Schema = mongoose.Schema;
 const order = {
     customerInfo:{
@@ -12,6 +13,7 @@ const order = {
         {
             productId:{type: Schema.Types.ObjectId, ref:'Product'},
             title:{type:String, required:true},
+            buyingPrice:{type: Number, default:1},
             price:{type:Number, required:true},
             itemsCount:{type: Number, default:1},
             total:{type:Number, default:0}
@@ -20,7 +22,8 @@ const order = {
     billSummary:{
         paymentMethod:{type: String, default:"COD"},
         totalPrice: {type: Number, default:0}
-    }
+    },
+    orderStatus:{type:String, default: Constants.ORDER_STATUS.received},
 }
 
 const orderSchema = new Schema(order,{

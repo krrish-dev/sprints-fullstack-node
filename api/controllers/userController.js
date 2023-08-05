@@ -130,6 +130,10 @@ const sendPasswordResetEmail = async (email, token) => {
   }
 };
 
+const getNumberOfActiveUsers = async (req, res)=>{
+ let response = await userService.getNumberOfActiveUsers(req.query);
+ res.status(response.status??200).send(response);
+}
 
 module.exports = {
   registerUser,
@@ -137,4 +141,5 @@ module.exports = {
   logoutUser,
   forgotPassword,
   resetPassword,
+  getNumberOfActiveUsers
 };

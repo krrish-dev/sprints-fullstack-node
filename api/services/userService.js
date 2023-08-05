@@ -3,6 +3,8 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cartModels = require('../models/cartModel');
+const Cart = require('../schemas/cart'); 
+
 const registerUser = async (name, email, password) => {
   try {
     const existingUser = await User.findOne({ email });
@@ -64,10 +66,43 @@ const logoutUser = async (userId) => {
     }
   };
   
+  async function getNumberOfActiveUsers(dateFilter){
+    let response = {success: true, status: 200};
+    let dateQuery = {};
+    try{
+      if(dateFilter.from){
+        dateQuery.$gte = toDate(dateFilter.from);
+      }
+      if(dateFilter.to){
+        dateQuery.$lte = toDate(dateFilter.to);
+      }
+    }catch(err){
+      console.error(err);
+      response.status = 400;
+      response.message = err;
+      response.success = false;
+      return response;
+    }
+    let numberOfUsers = await Cart.countDocuments({updatedAt:dateQuery}).exec().catch(err => {
+      response.status = 500;
+      response.message = "Error while counting doucuments";
+      response.success = false;
+    });
+    if(!response.success) return response;
+    response.success = true;
+    response.result = numberOfUsers;
+    return response;
+  }
+
+  function toDate(dateString){
+    console.log(dateString);
+    return new Date(dateString);
+  }
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   savePasswordResetToken,
   resetUserPassword,
+  getNumberOfActiveUsers
 };

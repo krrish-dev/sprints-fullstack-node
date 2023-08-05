@@ -11,15 +11,15 @@ const PAYMENT_METHOD = {
 
 async function checkOut(cartId, orderInfo) {
   let cart = await getCart(cartId);
-  if(!cart.result.products||cart.result.products.length <= 0) {
-    return {success: false, message:"Empty Cart"};
+  if (!cart.result.products || cart.result.products.length <= 0) {
+    return { success: false, message: "Empty Cart" };
   }
   if (orderInfo.paymentMethod == PAYMENT_METHOD.cod) {
     cart.result.cutomerInfo = orderInfo;
     let order = formOrderFromCart(cart.result, PAYMENT_METHOD.cod);
     let savingOrderResult = await saveOrder(order);
     if (!savingOrderResult.success) return savingOrderResult;
-    return await resetCartAndProducts(cart.result); 
+    return await resetCartAndProducts(cart.result);
   }
   return await beginPaymentSession(cart, orderInfo);
 }
@@ -56,7 +56,7 @@ async function onPaymentSuccess(paymentId, cartId) {
   let response = { success: true };
   let cart = await getCart(cartId);
   cart = cart.result;
-  if (!cart.paymentId||cart.paymentId != paymentId) {
+  if (!cart.paymentId || cart.paymentId != paymentId) {
     response.success = false;
     response.message = "There is no payment initiated.";
     return response;
@@ -65,18 +65,18 @@ async function onPaymentSuccess(paymentId, cartId) {
   response.result = formOrderFromCart(cart);
   let savingOrderResult = await saveOrder(response.result);
   if (!savingOrderResult.success) return savingOrderResult;
-  response  = await resetCartAndProducts(cart);
+  response = await resetCartAndProducts(cart);
   return response;
 }
 
-async function onPaymentCancelled(cartId){
-  let response = {success: true, status: 200};
-  await Cart.findByIdAndUpdate(cartId, {paymentId: null, cutomerInfo: null}).catch(err =>{
+async function onPaymentCancelled(cartId) {
+  let response = { success: true, status: 200 };
+  await Cart.findByIdAndUpdate(cartId, { paymentId: null, cutomerInfo: null }).catch(err => {
     response.success = false;
     response.message = "Error while cancelling payment";
     response.status = 500;
   });
-  if(!response.success) return response;
+  if (!response.success) return response;
   response.result = "Order Cancelled successfully";
   return response;
 }
@@ -103,7 +103,7 @@ async function getCart(cartId) {
   let response = { success: true };
   let cartObj = await Cart.findById(cartId)
     .select({ "__v": 0, "products._id": 0, "products.price": 0 })
-    .populate('products.product', ['title', 'price', 'img'])
+    .populate('products.product', ['title', 'price', 'img', 'buyingPrice'])
     .exec()
     .catch(err => {
       console.log("failed to get cart", err);
@@ -142,6 +142,7 @@ function formOrderFromCart(cart, paymentMethod) {
     product.productId = cartItem.product._id;
     product.title = cartItem.product.title;
     product.price = cartItem.product.price;
+    product.buyingPrice = cartItem.product.buyingPrice;
     product.itemsCount = cartItem.itemsCount;
     product.total = cartItem.product.price * cartItem.itemsCount;
     order.products.push(product);
@@ -155,7 +156,6 @@ function formOrderFromCart(cart, paymentMethod) {
   };
   return order;
 }
-
 
 function onPaymentStatusChange(sig, body) {
   const endpointSecret = "whsec_bc83324eaed4abe6233794ab39e67a8884b745cad06de22c7b239239742d794c";
@@ -181,12 +181,12 @@ function onPaymentStatusChange(sig, body) {
 }
 
 async function resetCartAndProducts(cart, canceled = false) {
-  let response = {success: true, status: 200};
+  let response = { success: true, status: 200 };
   cart.paymentId = null;
   cart.customerInfo = null;
 
   if (canceled) {
-    await cart.save().catch(err =>{
+    await cart.save().catch(err => {
       response.success = false;
       response.status = 500;
       response.message = "Error while updating the cart."
@@ -206,70 +206,101 @@ async function resetCartAndProducts(cart, canceled = false) {
     console.error(error);
   });
   cart.products = [];
-  await cart.save().catch(err =>{
-      response.success = false;
-      response.status = 500;
-      response.message = "Error while updating the cart."
-    });
-    if(!response.success) {
-      return response;
-    }
-    response.result ={
-        customer: "64c66d02f463e3e81e006056",
-        products: [],
-        paymentId: null,
-        total: 0,
-        itemsCount: 0
-      }
-      return response;
+  await cart.save().catch(err => {
+    response.success = false;
+    response.status = 500;
+    response.message = "Error while updating the cart."
+  });
+  if (!response.success) {
+    return response;
+  }
+  response.result = {
+    customer: "64c66d02f463e3e81e006056",
+    products: [],
+    paymentId: null,
+    total: 0,
+    itemsCount: 0
+  }
+  return response;
 }
 
+async function calculateInventory(filter) {
+  let matchQuery = {
+    createdAt:{}
+  };
+  if(filter && filter.from) matchQuery.createdAt.$gte = toDate(filter.from);
+  if(filter && filter.to) matchQuery.createdAt.$lte = toDate(filter.to);
+  let response = { success: true, status: 200 };
+  let pipeline = [
+    {
+      $match: matchQuery
+    },
+    { $unwind: '$products' },
+    {
+      $group: {
+        _id: '$products.productId',
+        productTitle: {$first: '$products.title'},
+        totalItemsSold: { $sum: '$products.itemsCount' },
+        totalCost: {$sum:{$multiply:['$products.buyingPrice','$products.itemsCount']}},
+        totalRevenue:{$sum:{$multiply:['$products.price','$products.itemsCount']}},
+        profit: { $sum: { $multiply: [{ $subtract: ['$products.price', '$products.buyingPrice'] }, '$products.itemsCount'] } }
+      },
+     
+    }, {
+      $lookup: {
+        from: 'products',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'product',
+      },
+    },
+    { $unwind: '$product' }, 
+  {
+    $project: {
+      _id: 1,
+      productTitle: 1,
+      totalItemsSold: 1,
+      avaliable: '$product.amount',
+      totalCost: 1,
+      totalRevenue: 1,
+      profit: 1,
+      img: '$product.img'
+      
+    },
+  },
+  { $sort: { totalItemsSold: -1 } }
+  ];
+  let result = await Order.aggregate(pipeline).catch(err => {
+    console.log(err);
+    response.status = 500;
+    response.success = false;
+    response.message = "Error Occured";
+  });
+  if (!response.success) return response;
+  response.result = result;
+  return response;
+}
+
+async function updateOrderStatus(data){
+ let response =  {success: true, status: 200};
+ await Order.findByIdAndUpdate(data.orderId, {orderStatus: data.status}).catch(err => {
+  response.status = 500;
+  response.success = false;
+  response.message = "Error Occured";
+ });
+ if(!response.success) return response;
+ response.result = "Updated Successfully";
+ return response;
+}
+
+function toDate(dateString){
+  return new Date(dateString);
+}
 module.exports = {
   checkOut,
   onPaymentStatusChange,
   onPaymentSuccess,
   onPaymentCancelled,
+  calculateInventory,
+  updateOrderStatus
 };
-
-/*
-{
-  "success": true,
-  "result": {
-    "cutomerInfo": {
-      "mobile": "01227360505",
-      "addressLine": "& Maryotya",
-      "district": "Haram",
-      "state": "Giza"
-    },
-    "_id": "64c66d02f463e3e81e006058",
-    "customer": "64c66d02f463e3e81e006056",
-    "products": [
-      {
-        "product": {
-          "_id": "64c3f64f55a84f4e8bce459a",
-          "title": "Black Blouse",
-          "price": 330,
-          "img": [
-            "https://iili.io/HLUXf24.jpg"
-          ]
-        },
-        "itemsCount": 1
-      },
-      {
-        "product": {
-          "_id": "64c3fd7041fcad2a7e158391",
-          "title": "WOMEN'S PAJAMA SET",
-          "price": 449,
-          "img": [
-            "https://iili.io/HZzJeiN.jpg",
-            "https://iili.io/HZzJOVp.jpg"
-          ]
-        },
-        "itemsCount": 2
-      }
-    ],
-    "isPaymentInitiated": false,
-    "paymentId": "cs_test_b1Fry9PBV4x31EJWpO3z3sgtcYvACXhlsCVB8TMkfBjQPB4TGUPRnjoLjz"
-  }
-}
-*/

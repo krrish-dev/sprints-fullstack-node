@@ -8,7 +8,6 @@ const categoriesRoutes = require('./routes/categoriesRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
-const cors = require('cors');
 const { authenticateToken } = require('./utils/authorization');
 
 dotenv.config();
@@ -18,7 +17,6 @@ const DB_URI = process.env.DB_URI;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
 
 // Connect to the database
 mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })

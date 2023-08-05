@@ -18,6 +18,8 @@ const cart = {
     },
     paymentId: {type:String, default:null}
 }
-const cartSchema = new Schema(cart);
+const cartSchema = new Schema(cart, {
+    timestamps: true
+  });
 const Cart = mongoose.model('Cart', cartSchema,);
 module.exports = Cart;

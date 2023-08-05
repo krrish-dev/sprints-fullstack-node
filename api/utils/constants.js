@@ -1,3 +1,10 @@
+const ORDER_STATUS = {
+    received: 'received',
+    processing: 'processing',
+    delivered: 'delivered',
+    cancelled: 'cancelled'
+}
+
 const Roles = {
     superAdmin: "superadmin",
     admin: "admin",
@@ -11,6 +18,7 @@ const Actions = {
     updateUser: "updateUser",
     deleteUser: "deleteUser",
     getUsers: "getUsers",
+    getActiveUsers: "getActiveUsers",
     addCartItem: "addCartItem",
     deleteCartItem: "deleteCartItem",
     updateCartItem: "updateCartItem",
@@ -20,7 +28,9 @@ const Actions = {
     updateCategory: "updateCategory",
     getUserOrders: "getUserOrders",
     placeOrder: "placeOrder",
+    updateOrderStatus: "updateOrderStatus",
     allOrdersActions: "allOrdersActions",
+
 }
 const AllowedActions = {
     superadmin: [
@@ -41,7 +51,9 @@ const AllowedActions = {
         Actions.updateCategory,
         Actions.getUserOrders,
         Actions.allOrdersActions,
-        Actions.placeOrder
+        Actions.placeOrder,
+        Actions.updateOrderStatus,
+        Actions.getActiveUsers
     ],
     customer: [
         Actions.addCartItem,
@@ -55,5 +67,6 @@ const AllowedActions = {
 module.exports = {
     Roles,
     Actions,
-    AllowedActions
+    AllowedActions,
+    ORDER_STATUS
 }
