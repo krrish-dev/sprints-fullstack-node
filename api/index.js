@@ -1,9 +1,14 @@
 // index.js
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
-const { authenticateToken } = require('./utils/authentication');
+const categoriesRoutes = require('./routes/categoriesRoutes');
+const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const { authenticateToken } = require('./utils/authorization');
 
 dotenv.config();
 const app = express();
@@ -19,7 +24,12 @@ mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch((err) => console.error('Error connecting to the database:', err));
 
 // Routes
+app.use(cors());
 app.use('/', authRoutes);
+app.use(categoriesRoutes);
+app.use(productRoutes);
+app.use(cartRoutes);
+app.use(orderRoutes);
 
 // Example protected route
 app.get('/admin', authenticateToken, (req, res) => {
