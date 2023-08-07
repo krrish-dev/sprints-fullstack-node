@@ -124,3 +124,18 @@ GET http://localhost:3000/inventory?from=2023-08-05
 ### get active users
 GET http://localhost:3000/active-users?from=2023-08-05
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImFkbWluIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkxMjc4NDAxfQ.cXGPlgwPS1ziyabataXBVNKD_-R6y2ZisW5FimUh0Ao
+###
+GET http://localhost:3000/dashboardInfo?from=2023-08-05
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImFkbWluIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkxMjc4NDAxfQ.cXGPlgwPS1ziyabataXBVNKD_-R6y2ZisW5FimUh0Ao
+###
+PUT http://localhost:3000/orderStatus
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImFkbWluIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkxMjc4NDAxfQ.cXGPlgwPS1ziyabataXBVNKD_-R6y2ZisW5FimUh0Ao
+Content-Type: application/json
+
+{
+    "orderId":"64ccf775f1071c6e93ec2d3a",
+    "status":"processing"
+}
+###
+GET http://localhost:3000/ordersByStatus?status=received
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImFkbWluIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkxMjc4NDAxfQ.cXGPlgwPS1ziyabataXBVNKD_-R6y2ZisW5FimUh0Ao

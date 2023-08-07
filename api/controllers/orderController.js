@@ -57,11 +57,26 @@ async function updateOrderStatus(req, res){
     res.status(response.status??200).send(response);
 }
 
+async function getDashboardInfo(req, res){
+    let response = await orderModel.getDashboardInfo(req.query);
+    res.send(response);
+}
+async function getOrdersByStatus(req, res){
+    let orderStauts = req.query.status;
+    if(!orderStauts) {
+        res.status(400).send({success: false, message:"Required status"});
+        return;
+    }
+    let response = await orderModel.getOrdersByStatus(orderStauts);
+    res.status(response.status??200).send(response);
+}
 module.exports = {
     checkOut,
     onPaymentStatusChange,
     onPaymentSuccess,
     onPaymentCancelled,
     calculateInventory,
-    updateOrderStatus
+    updateOrderStatus,
+    getDashboardInfo,
+    getOrdersByStatus
 }

@@ -83,7 +83,8 @@ const logoutUser = async (userId) => {
       response.success = false;
       return response;
     }
-    let numberOfUsers = await Cart.countDocuments({updatedAt:dateQuery}).exec().catch(err => {
+    let query = Object.keys(dateQuery) == 0? {}: {updatedAt:dateQuery};
+    let numberOfUsers = await Cart.countDocuments(query).exec().catch(err => {
       response.status = 500;
       response.message = "Error while counting doucuments";
       response.success = false;

@@ -1,6 +1,7 @@
 const Order = require('../schemas/order');
 const Cart = require('../schemas/cart');
 const Product = require('../schemas/product');
+const userModel = require('../services/userService');
 const { response } = require('express');
 const stripe = require('stripe')('sk_test_51NZf7MIVT2r7id06eE3eJ5gjkAhl8v9IJEYDFHBjU3YjFj2OXCti7MhWBdG9xwqzDdmsjZekdOMdmxqBXd4CXcJV00kkyMohy5');
 const TEMP_DOMAIN = "http://localhost:3000";
@@ -226,10 +227,10 @@ async function resetCartAndProducts(cart, canceled = false) {
 
 async function calculateInventory(filter) {
   let matchQuery = {
-    createdAt:{}
+    createdAt: {}
   };
-  if(filter && filter.from) matchQuery.createdAt.$gte = toDate(filter.from);
-  if(filter && filter.to) matchQuery.createdAt.$lte = toDate(filter.to);
+  if (filter && filter.from) matchQuery.createdAt.$gte = toDate(filter.from);
+  if (filter && filter.to) matchQuery.createdAt.$lte = toDate(filter.to);
   let response = { success: true, status: 200 };
   let pipeline = [
     {
@@ -239,13 +240,13 @@ async function calculateInventory(filter) {
     {
       $group: {
         _id: '$products.productId',
-        productTitle: {$first: '$products.title'},
+        productTitle: { $first: '$products.title' },
         totalItemsSold: { $sum: '$products.itemsCount' },
-        totalCost: {$sum:{$multiply:['$products.buyingPrice','$products.itemsCount']}},
-        totalRevenue:{$sum:{$multiply:['$products.price','$products.itemsCount']}},
+        totalCost: { $sum: { $multiply: ['$products.buyingPrice', '$products.itemsCount'] } },
+        totalRevenue: { $sum: { $multiply: ['$products.price', '$products.itemsCount'] } },
         profit: { $sum: { $multiply: [{ $subtract: ['$products.price', '$products.buyingPrice'] }, '$products.itemsCount'] } }
       },
-     
+
     }, {
       $lookup: {
         from: 'products',
@@ -254,21 +255,21 @@ async function calculateInventory(filter) {
         as: 'product',
       },
     },
-    { $unwind: '$product' }, 
-  {
-    $project: {
-      _id: 1,
-      productTitle: 1,
-      totalItemsSold: 1,
-      avaliable: '$product.amount',
-      totalCost: 1,
-      totalRevenue: 1,
-      profit: 1,
-      img: '$product.img'
-      
+    { $unwind: '$product' },
+    {
+      $project: {
+        _id: 1,
+        productTitle: 1,
+        totalItemsSold: 1,
+        avaliable: '$product.amount',
+        totalCost: 1,
+        totalRevenue: 1,
+        profit: 1,
+        img: '$product.img'
+
+      },
     },
-  },
-  { $sort: { totalItemsSold: -1 } }
+    { $sort: { totalItemsSold: -1 } }
   ];
   let result = await Order.aggregate(pipeline).catch(err => {
     console.log(err);
@@ -281,19 +282,87 @@ async function calculateInventory(filter) {
   return response;
 }
 
-async function updateOrderStatus(data){
- let response =  {success: true, status: 200};
- await Order.findByIdAndUpdate(data.orderId, {orderStatus: data.status}).catch(err => {
-  response.status = 500;
-  response.success = false;
-  response.message = "Error Occured";
- });
- if(!response.success) return response;
- response.result = "Updated Successfully";
- return response;
+async function updateOrderStatus(data) {
+  let response = { success: true, status: 200 };
+  await Order.findByIdAndUpdate(data.orderId, { orderStatus: data.status }).catch(err => {
+    response.status = 500;
+    response.success = false;
+    response.message = "Error Occured";
+  });
+  if (!response.success) return response;
+  response.result = "Updated Successfully";
+  return response;
 }
 
-function toDate(dateString){
+async function getDashboardInfo(filter) {
+  let matchQuery = {
+  };
+  if (filter && filter.from) {
+    if (!matchQuery.createdAt) matchQuery.createdAt = {};
+    matchQuery.createdAt.$gte = toDate(filter.from);
+  }
+  if (filter && filter.to) {
+    if (!matchQuery.createdAt) matchQuery.createdAt = {};
+    matchQuery.createdAt.$lte = toDate(filter.to);
+  }
+  let currentDate = new Date();
+  let beforeWeek = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 7);
+  let weekPeriodFilter = {
+    createdAt: {
+      $gte: beforeWeek,
+      $lte: currentDate
+    }
+  }
+  let [[totalSold], [weekSold], activeUsers] = await Promise.all([
+    getSoldItemsCount(matchQuery),
+    getSoldItemsCount(weekPeriodFilter),
+    userModel.getNumberOfActiveUsers(filter)
+  ]);
+  let response = {
+    periodSold: totalSold.totalSold,
+    periodEarnings: totalSold.totalEarnings,
+    weekSold: weekSold.totalSold,
+    weekEarnings: weekSold.totalEarnings,
+    activeUsers: activeUsers.result
+  };
+  return response;
+}
+
+async function getOrdersByStatus(status) {
+  let response = { success: true, status: 200 };
+  let result = await Order.find({ orderStatus: status })
+  .select({'customerInfo.userId':1, billSummary:1})
+    .populate('customerInfo.userId', ['name', 'email'])
+    .exec()
+    .catch(err => {
+      response.success = false;
+      response.message = "Error while getting orders";
+      response.status = 500;
+    });
+  if (!response.success) return response;
+  response.result = result;
+  return response;
+}
+
+async function getSoldItemsCount(dateFilter) {
+  let aggregateQuery = [
+    {
+      $match: dateFilter
+    },
+    { $unwind: '$products' },
+    {
+      $group: {
+        _id: null,
+        totalSold: { $sum: '$products.itemsCount' },
+        totalEarnings: { $sum: '$billSummary.totalPrice' }
+      }
+    }
+  ];
+  let result = await Order.aggregate(aggregateQuery);
+  return result;
+}
+
+function toDate(dateString) {
   return new Date(dateString);
 }
 module.exports = {
@@ -302,5 +371,7 @@ module.exports = {
   onPaymentSuccess,
   onPaymentCancelled,
   calculateInventory,
-  updateOrderStatus
+  updateOrderStatus,
+  getDashboardInfo,
+  getOrdersByStatus
 };

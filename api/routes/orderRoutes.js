@@ -10,4 +10,6 @@ router.get('/paymentCanceled', authorization.verifyAccess(constants.Actions.plac
 router.get('/inventory', orderController.calculateInventory);
 router.post('/webhook', express.raw({type: 'application/json'}),orderController.onPaymentStatusChange);
 router.put('/orderStatus',authorization.verifyAccess(constants.Actions.updateOrderStatus), orderController.updateOrderStatus);
+router.get('/dashboardInfo', authorization.verifyAccess(constants.Actions.updateOrderStatus), orderController.getDashboardInfo);
+router.get('/ordersByStatus', authorization.verifyAccess(constants.Actions.updateOrderStatus), orderController.getOrdersByStatus);
 module.exports = router;
