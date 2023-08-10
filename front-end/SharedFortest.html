@@ -4,16 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/frontend-k.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/sharedStyle.css">
     <link rel="stylesheet" href="./fontawesome-free-6.4.0-web/css/all.min.css">
-    <title>Document</title>
+    <title>Store Login page</title>
 </head>
 
 <body>
     <div style="background-color: #1E1F29">
-        <nav class="container">
-            <div style="justify-content: space-between;margin-left: 0!important;padding-left: 0!important;"
-                class="d-flex">
+        <nav class="container ">
+            <div  class="d-flex" style="justify-content: space-between; align-items: center;">
                 <div>
                     <ul class="navBarList">
                         <li><span><i class="fa-solid fa-magnifying-glass"></i></span> +021-95-51-84 </li>
@@ -24,10 +25,10 @@
                 </div>
                 <div>
 
-                    <ul class="navBarList">
+                    <ul class="navBarList ">
                         <li><span><i class="fa-solid fa-dollar-sign"></i></span> USD</li>
 
-                        <li><span><i class="fa-regular fa-user"></i></span> My Account</li>
+                        <li class="navBarListRightLi"><span><i class="fa-regular fa-user"></i></span> My Account</li>
 
                     </ul>
                 </div>
@@ -37,7 +38,7 @@
     </div>
     <div class="secondaryNav">
         <nav class="container ">
-            <div class="d-flex">
+            <div  class="d-flex " >
                 <div class="col-md-3 navBarImg">
                     <img src="./img/logo.png">
                 </div>
@@ -56,7 +57,7 @@
                 </div>
 
                 <div class="col-md-3 navIcons">
-                    <div style="margin-top: 20px;justify-content: space-around;" class="d-flex">
+                    <div  class="d-flex NavIconsLeft">
 
                         <div style="text-align: center;" class="NavIcons"><i style="margin-bottom: 5px;" class="fa-regular fa-heart "><span>10</span>
                             </i>
@@ -85,7 +86,7 @@
         <div class="redLine"></div>
         <nav id="navigation">
             <!-- container -->
-            <div class="container">
+            <div class="container ">
                 <!-- responsive-nav -->
                 <div class="thridNavBarONFULL" id="responsive-nav">
                     <!-- NAV -->
@@ -105,32 +106,36 @@
             <!-- /container -->
         </nav>
     </div>
-
-
-
-
-
-
-
-
-
-
-<!-- codehere -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div style="height: 70vh;"></div>
+    
+ 		<!-- /BREADCRUMB -->
+         <section class="login">
+			<div class="login-box">
+			  <h1>Login</h1>
+			  <form id="loginForm">
+				<div>
+				  <label for="email">Email:</label>
+				  <input type="email" id="email" name="email" required>
+				</div>
+				<div class="password-input">
+				  <label for="password">Password:</label>
+				  <input type="password" id="password" name="password" required>
+				  <span class="password-toggle" onclick="togglePasswordVisibility()">
+					<i class="fa fa-eye" id="eye-icon" style="color: black;"></i>
+				  </span>
+				</div>
+				<button type="submit">Login</button>
+			  </form>
+			  <div class="forgot-password">
+				<a href="forget-pw.html">Forgot Password?</a>
+			  </div>
+			  <div class="signup-link">
+				<p>Don't have an account? <a href="#">Sign up</a></p>
+			  </div>
+			</div>
+		  </section>
+ 
+<!--  
+    <div style="height: 70vh;"></div> -->
     <div class="redLine"></div>
 
     <footer id="footer" class="">
@@ -221,7 +226,10 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/0b7a4d3757.js" crossorigin="anonymous"></script>
+    <script src="./js/scriptShared.js" crossorigin="anonymous"></script>
+
     <script src="./js/script.js" crossorigin="anonymous"></script>
+    <script src="./js/frontend-k.js"></script>
 
 </body>
 
