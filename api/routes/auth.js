@@ -14,4 +14,8 @@ router.post('/reset-password', userController.resetPassword); // New endpoint fo
 router.get('/active-users', 
     authorization.verifyAccess(constants.Actions.getActiveUsers), 
     userController.getNumberOfActiveUsers);
+router.get('/users', 
+    authorization.verifyAccess(constants.Actions.getActiveUsers), 
+    userController.getUsers);
+router.put('/users', authorization.verifyAccess(constants.Actions.updateUser), userController.updateUserRole);
 module.exports = router;

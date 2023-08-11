@@ -15,7 +15,11 @@ class DashBoard {
         this.totalEarningsRef = document.getElementById(TOTAL_EARNING);
     }
     async getDashboard(options = {}) {
-        let result = await services.getRequest(api.getdashboardInfo, options);
+        let result = await services.getRequest(api.getdashboardInfo, options).catch(e =>{
+            if(e === 401){
+              window.location.replace("../../index.html");
+            }
+         });
         this.setDashboardVals(result);
         this.setDashboardLabels(options);
     }

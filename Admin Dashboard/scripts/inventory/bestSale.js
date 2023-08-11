@@ -22,10 +22,18 @@ class BestSale{
     async fetchBestSaleItems(){
         let response;
         if(this.itemsLimit){
-          response =  await services.getRequest(api.getInventory, this.#filter);
+          response =  await services.getRequest(api.getInventory, this.#filter).catch(e =>{
+            if(e === 401){
+              window.location.replace("../../index.html");
+            }
+         });
           this.loadMoreRef.style.display = "block";
         }else{
-            response = await services.getRequest(api.getInventory);
+            response = await services.getRequest(api.getInventory).catch(e =>{
+                if(e === 401){
+                  window.location.replace("../../index.html");
+                }
+             });
             this.loadMoreRef.style.display = "none";
         }
         if(!response.success){

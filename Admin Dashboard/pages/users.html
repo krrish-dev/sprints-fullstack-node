@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory</title>
+    <title>Users</title>
     <link rel="stylesheet" href="../styles/common/navBar.css">
     <link rel="stylesheet" href="../styles/common/notification.css">
     <link rel="stylesheet" href="../assets/fonts/fontawesome-free-6.4.2-web/css/all.min.css">
-    <link rel="stylesheet" href="../styles/inventory/bestSale.css">
-    <link rel="stylesheet" href="../styles/inventory/products.css">
+    <link rel="stylesheet" href="../styles/users/users.css">
 </head>
-
-<body onload="inventory.onInventoryLoad()">
-    <!---------- NAVIGATION START----------->
-    <aside id="sideBarOverlay">
-        <div onclick="inventoryNav.toggelDashboardSettings()">
+<body onload="usersManager.onUsersLoad()">
+     <!---------- NAVIGATION START----------->
+     <aside id="sideBarOverlay">
+        <div onclick="usersNav.toggelDashboardSettings()">
 
         </div>
         <div id="sideBar">
@@ -24,14 +21,14 @@
                 range."</span>-->
             <section class="inputSection">
                 <label for="toDate">From Date </label>
-                <input type="date" id="toDate" onchange="inventoryNav.onDatePicked(this)">
+                <input type="date" id="toDate" onchange="usersNav.onDatePicked(this)">
             </section>
             <section class="inputSection">
                 <label for="fromDate">To Date </label>
-                <input type="date" id="fromDate" onchange="inventoryNav.onDatePicked(this)">
+                <input type="date" id="fromDate" onchange="usersNav.onDatePicked(this)">
             </section>
             <section id="settingButtons">
-                <button onclick="inventoryNav.toggelDashboardSettings()">CLOSE</button>
+                <button onclick="usersNav.toggelDashboardSettings()">CLOSE</button>
                 <button onclick="bestSale.applyDateRange()">APPLY</button>
             </section>
         </div>
@@ -45,7 +42,7 @@
                 Dashboard
             </span>
         </a>
-        <a href="./users.html"><i class="fa-solid fa-user"></i>
+        <a href=""><i class="fa-solid fa-user"></i>
             <span>Users</span>
         </a>
         <a href="">
@@ -53,9 +50,9 @@
             <span>Inventory</span>
         </a>
         <div>
-            <i class="fa-solid fa-gear" onclick="inventoryNav.toggelDashboardSettings()"></i>
+            <i class="fa-solid fa-gear" onclick="usersNav.toggelDashboardSettings()" style="display: none;"></i>
             <div class="profileImage"><img src="https://iili.io/HUfysQS.jpg" alt="" style="width: 60px;"></div>
-            <div class="userOptions" onclick="inventoryNav.onUserProfileClicked(this)">
+            <div class="userOptions" onclick="usersNav.onUserProfileClicked(this)">
                 <span>
                     Profile Options
                 </span>
@@ -65,15 +62,15 @@
                 <div class="userInfo">
                     <div class="profileImage" , style="height: 80px;width:80px;"><img src="https://iili.io/HUfysQS.jpg" alt=""></div>
                     <div>
-                        <p id="subMenuUserName">Fouad Abdelhady</p>
-                        <p id="subMenuUserEmail">yfouad42@yahoo.com</p>
+                        <p id="subMenuUserName"></p>
+                        <p id="subMenuUserEmail"></p>
                     </div>
                 </div>
                 <ul>
                     <li>
                         <i class="fa-solid fa-id-card"></i> <span>Profile</span>
                     </li>
-                    <li onclick="inventoryNav.logOut()">
+                    <li onclick="usersNav.logOut()">
                         <i class="fa-solid fa-power-off"></i> <span>Logout</span>
                     </li>
                 </ul>
@@ -84,7 +81,7 @@
         <a href="">
             <img src="https://colorlib.com/polygon/cooladmin/images/icon/logo-white.png" alt="">
         </a>
-        <div class="mobileMenu" onclick="inventoryNav.onMenuIconClicked(this)">
+        <div class="mobileMenu" onclick="usersNav.onMenuIconClicked(this)">
             <i class="fa-solid fa-bars"></i>
         </div>
     </nav>
@@ -93,7 +90,7 @@
             <i class="fa-solid fa-gauge"></i>
             <span>Dashboard</span>
         </a>
-        <a class="menuItem" href="users.html">
+        <a class="menuItem">
             <i class="fa-solid fa-user"></i>
             <span>Users</span>
         </a>
@@ -101,7 +98,7 @@
             <i class="fa-solid fa-box-open"></i>
             <span>Inventory</span>
         </a>
-        <div class="menuItem" onclick="inventoryNav.toggelDashboardSettings()">
+        <div class="menuItem" onclick="usersNav.toggelDashboardSettings()">
             <i class="fa-solid fa-gear"></i>
             <span>Settings</span>
         </div>
@@ -109,53 +106,19 @@
             <i class="fa-solid fa-id-card"></i>
             <span>Profile</span>
         </a>
-        <div class="menuItem" onclick="inventoryNav.logOut()">
+        <div class="menuItem" onclick="usersNav.logOut()">
             <i class="fa-solid fa-power-off"></i>
             <span>Logout</span>
         </div>
-        <div onclick="inventoryNav.onMenuIconClicked()">
+        <div onclick="usersNav.onMenuIconClicked()">
             <i class="fa-solid fa-chevron-up"></i>
         </div>
     </div>
     <!---------- NAVIGATION END------------->
-    <main id="mainBodyContainer">
-        <!--------BEST SALE BEGINING ---------------------------------->
-        <h2>BEST SALE</h2>
-        <section id="bestSaleContainer">
+    <main>
+        <h1> Users </h1>
+        <section id="usersList">
             
-        </section>
-        <div id="bestSaleLoadMore" onclick="bestSale.loadMore()">LOAD MORE ...</div>
-        <!--------BEST SALE ENDING ---------------------------------->
-
-        <section id="productSection">
-            <div id="productUpdateOverlay">
-                <div class="productUpdateForm">
-                    <div><input type="text" placeholder="Product Name *" id="productName"></div>
-                    <div><input type="number" placeholder="Selling Price *" id="sellingPrice"></div>
-                    <div><input type="number" placeholder="Amount *" id="amount"></div>
-                    <div><input type="text" placeholder="Category *" id="category"></div>
-                    <div><textarea name="productDescription" 
-                        id="itemDescription" cols="30" rows="5"></textarea></div>
-                    <div><textarea name="productKeywords" id="itemKeywords" cols="30" rows="5"></textarea></div>
-                    <div id="updateOptions">
-                        <div onclick="inventoryProducts.resetProductUpdateForm()">RESET</div>
-                        <div onclick="inventoryProducts.updateProduct()">APPLY</div>
-                        <div onclick="inventoryProducts.toggelProductUpdateOverlay()">CLOSE</div>
-                    </div>
-                </div>
-            </div>
-            <h2>INVENTORY PRODUCTS</h2>
-            <div id="searchBar">
-                <input type="text" id="searchInput"  placeholder="Search Products" onkeyup="inventoryProducts.searchProducts()">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-            <div id="productsContainer">
-                
-            </div>
-            <div id="pagination">
-                <div id="previous" onclick="inventoryProducts.previous()"><span>PREVIOUS</span></div>
-                <div id="next" onclick="inventoryProducts.next()"><span>NEXT</span></div>
-            </div>
         </section>
     </main>
     <div id="notification">
@@ -166,9 +129,6 @@
     <script src="../scripts/common/notification.js"></script>
     <script src="../services/apis.js"></script>
     <script src="../services/services.js"></script>
-    <script src="../scripts/inventory/products.js"></script>
-    <script src="../scripts//inventory/bestSale.js"></script>
-    <script src="../scripts/inventory/inventory.js"></script>
+    <script src="../scripts/users/users.js"></script>
 </body>
-
 </html>

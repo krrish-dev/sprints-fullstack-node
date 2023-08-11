@@ -2,7 +2,7 @@ const userService = require('../services/userService');
 const jwt = require('jsonwebtoken');
 const { z } = require('zod');
 const nodemailer = require('nodemailer');
-
+const constants = require('../utils/constants');
 
 
 const registerSchema = z.object({
@@ -135,11 +135,27 @@ const getNumberOfActiveUsers = async (req, res)=>{
  res.status(response.status??200).send(response);
 }
 
+const getUsers = async (req, res)=>{
+  let response = await userService.getUsers(req.user.userId);
+  res.status(response.status??200).send(response);
+}
+
+const updateUserRole = async(req, res)=>{
+  let body = req.body;
+  if(!body.role || !constants.Roles[body.role]||!body.userId){
+    res.status(400).send({success: false, message:"Bad request."});
+    return;
+  }
+  let response = await userService.updateUserRole(body.role, body.userId);
+  res.status(response.status??200).send(response);
+}
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   forgotPassword,
   resetPassword,
-  getNumberOfActiveUsers
+  getNumberOfActiveUsers,
+  getUsers,
+  updateUserRole
 };

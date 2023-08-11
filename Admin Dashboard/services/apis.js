@@ -4,12 +4,14 @@ class Apis {
     addProduct;
     updateProduct;
     getProducts;
+    getUsers;
     deleteProduct;
     getInventory;
     getActiveUser;
     getdashboardInfo;
     updateOrderStatus;
     getOrdersByStatus;
+    updateUser;
     constructor() {
         this.register = "register";
         this.login = "login";
@@ -22,6 +24,8 @@ class Apis {
         this.getdashboardInfo = "dashboardInfo";
         this.updateOrderStatus = "orderStatus";
         this.getOrdersByStatus = "ordersByStatus";
+        this.getUsers = "users";
+        this.updateUser = "users"
     }
 
 }

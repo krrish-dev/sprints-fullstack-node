@@ -1,191 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="./styles/common/navBar.css">
+    <link rel="stylesheet" href="./styles/index/index.css">
     <link rel="stylesheet" href="./styles/common/notification.css">
-    <link rel="stylesheet" href="./styles/home/dashboard.css">
-    <link rel="stylesheet" href="./styles/home/orders.css">
-    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="../assets/fonts/fontawesome-free-6.4.2-web/css/all.min.css">
+    <title>Login</title>
 </head>
-
-<body onload="homeManager.onHomeLoad()">
-    <!--------- START OF NAVIGATION BARS --------->
-    <aside id="sideBarOverlay" >
-        <div onclick="navigation.toggelDashboardSettings()">
-
-        </div>
-        <div  id="sideBar">
-            <h2>Dashboard Range</h2>
-            <span>"The active users, sold items, and the total earning will be recalculated based on the selected range."</span>
-            <section class="inputSection">
-                <label for="toDate">From Date </label>
-                <input type="date" id="toDate" onchange="navigation.onDatePicked(this)">
-            </section>
-            <section class="inputSection">
-                <label for="fromDate">To Date </label>
-                <input type="date" id="fromDate" onchange="navigation.onDatePicked(this)">
-            </section>
-            <section id="settingButtons">
-                <button onclick="navigation.toggelDashboardSettings()">CLOSE</button>
-                <button onclick="dashBoard.applyDashboardRange()">APPLY</button>
-            </section>
-        </div>
-        
-    </aside>
-    <nav id="desktopNav">
-        <a href=""><img src="https://colorlib.com/polygon/cooladmin/images/icon/logo-white.png" alt=""></a>
-        <a href="./index.html">
-            <i class="fa-solid fa-gauge"></i>
-            <span>
-                Dashboard
-            </span>
-        </a>
-        <a href=""><i class="fa-solid fa-user"></i>
-            <span>Users</span>
-        </a>
-        <a href="./pages/inventory.html">
-            <i class="fa-solid fa-box-open"></i>
-            <span>Inventory</span>
-        </a>
-        <div>
-            <i class="fa-solid fa-gear" onclick="navigation.toggelDashboardSettings()"></i>
-            <div class="profileImage"></div>
-            <div class="userOptions" onclick="navigation.onUserProfileClicked(this)">
-                <span>
-                    Profile Options
-                </span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="optionsList" id="profileDropdown">
-                <div class="userInfo">
-                    <div class="profileImage" , style="height: 80px;width:80px;"></div>
-                    <div>
-                        <p>Fouad Abdelhady</p>
-                        <p>yfouad42@yahoo.com</p>
-                    </div>
-                </div>
-                <ul>
-                    <li>
-                        <i class="fa-solid fa-id-card"></i> <span>Profile</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-power-off"></i> <span>Logout</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
-    <nav id="mobileNav">
-        <a href="">
-            <img src="https://colorlib.com/polygon/cooladmin/images/icon/logo-white.png" alt="">
-        </a>
-        <div class="mobileMenu" onclick="navigation.onMenuIconClicked(this)">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-    </nav>
-    <div class="navMenuItems" id="subMenuMobile">
-        <div class="menuItem">
-            <i class="fa-solid fa-gauge"></i>
-            <span>Dashboard</span>
-        </div>
-        <div class="menuItem">
-            <i class="fa-solid fa-user"></i>
-            <span>Users</span>
-        </div>
-        <div class="menuItem">
-            <i class="fa-solid fa-user"></i>
-            <span>Inventory</span>
-        </div>
-        <div class="menuItem">
-            <i class="fa-solid fa-gear"></i>
-            <span>Settings</span>
-        </div>
-        <div class="menuItem">
-            <i class="fa-solid fa-id-card"></i>
-            <span>Profile</span>
-        </div>
-        <div class="menuItem">
-            <i class="fa-solid fa-power-off"></i>
-            <span>Logout</span>
-        </div>
-        <div onclick="navigation.onMenuIconClicked()">
-            <i class="fa-solid fa-chevron-up" ></i>
-        </div>
-    </div>
-    <!--------- END OF NAVIGATION BARS --------->
+<body>
     <main>
-        <section class="generalInfoContainer">
-            <header>
-                <h1>Welcome back John!</h1>
-            </header>
-            <div class="generalInfo">
-                <div class="infoItem" id="activUsers">
-                    <h2></h2>
-                    <h4>ACTIVE USERS</h4>
-                    <img src="./assets/images/group.png" alt="">
-                </div>
-                <div class="infoItem" id="soldItems">
-                    <h2></h2>
-                    <h4>SOLD ITEMS</h4>
-                    <img src="./assets/images/shopping-cart.png" alt="">
-                </div>
-                <div class="infoItem" id="soldInPeroid">
-                    <h2></h2>
-                    <h4>THIS WEEK</h4>
-                    <img src="./assets/images/calendar.png" alt="">
-                </div>
-                <div class="infoItem" id="totalEarning">
-                    <h2>$1,060,386</h2>
-                    <h4>TOTAL EARNINGS</h4>
-                    <img src="./assets/images/dollar.png" alt="">
-                </div>
-            </div>
-        </section>
-        <section class="ordersSection">
-            <header>
-                <h2>Orders</h2>
-            </header>
-            <select id="orderStatus" name="order" onchange="orders.getOrdersByStatus(this)">
-                <option value="received">Received </option>
-                <option value="processing">Processing</option>
-                <option value="delivered">Delivered</option>
-            </select>
-            <div id="ordersList">
-                
-              
-            </div>
-        </section>
-
+        <div>
+            <input type="email" id="userEmail" placeholder="User Email">
+           <div> <i class="fa-solid fa-at"></i></div>
+        </div>
+        <div>
+            <input type="password" id="userPassword" placeholder="Password">
+            <div onclick="auth.toggelViewPassword(this)"><i class="fa-regular fa-eye"></i></div>
+        </div>
+        <a href="">Forget Password?</a>
+        <div class="loginButton" onclick="auth.login()"><h2>Login</h2></div>
     </main>
     <div id="notification">
         <span> Updated Successfully</span>
     </div>
-    <script src="./scripts/common/navBar.js"></script>
     <script src="./scripts/common/notification.js"></script>
-    <script src="./services/apis.js"></script>
     <script src="./services/localDataManager.js"></script>
+    <script src="./services/apis.js"></script>
     <script src="./services/services.js"></script>
-    <script src="./scripts/home/home.js"></script>
-    <script src="./scripts/home/dashboard.js"></script>
-    <script src="./scripts/home/ordersInfo.js"></script>
+    <script src="./scripts/auth/login.js"></script>
 </body>
-
 </html>
-<!--<div class="mainOrderInfo">
-                    <p>Fouad Abdelhady</p>
-                    <a href="mailto:someone@example.com">yfouad42@yahoo.com</a>
-                    <p>2023-08-6</p>
-                    <p>2000 EGP</p>
-                    <div>
-                        <select id="status" name="order">
-                            <option value="received">Received </option>
-                            <option value="processing">Processing</option>
-                            <option value="delivered">Delivered</option>
-                        </select>
-                    </div>
-                </div>-->

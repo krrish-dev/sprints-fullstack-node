@@ -4,6 +4,9 @@ const SIDEBAR_OVERLAY = 'sideBarOverlay';
 const SIDEBAR = 'sideBar';
 const FROM_DATE = 'fromDate';
 const TO_DATE = 'toDate';
+const USER_NAME = "subMenuUserName";
+
+const USER_EMAIL = "subMenuUserEmail"
 const CLOSE_ICON = `<i class="fa-solid fa-xmark"></i>`;
 const OPEN_ICON = `<i class="fa-solid fa-bars"></i>`;
 class Navigation {
@@ -14,6 +17,9 @@ class Navigation {
     fromDateRef;
     toDateRef;
     menuIconRef;
+    userNameRef;
+   
+    userEmailRef;
     #isDesktopMenu1 = false;
     #isMobileSubMenu = false;
     #isOverlayMenu = false;
@@ -24,7 +30,10 @@ class Navigation {
         this.sideBarRef = document.getElementById(SIDEBAR);
         this.fromDateRef = document.getElementById(FROM_DATE);
         this.toDateRef = document.getElementById(TO_DATE);
+        this.userNameRef = document.getElementById(USER_NAME);
+        this.userEmailRef = document.getElementById(USER_EMAIL);
         this.setDateLimits();
+        this.#setUserInfo();
     }
     onUserProfileClicked(ref){
         ref.querySelector('i').style.transform = this.#isDesktopMenu1?  'rotate(0deg)':'rotate(180deg)';
@@ -56,6 +65,10 @@ class Navigation {
     setDateLimits(){
         this.#setFromLimit();
         this.#setToLimit();
+    }
+    #setUserInfo(){
+        this.userNameRef.innerHTML = dm.getString("userName");
+        this.userEmailRef.innerHTML = dm.getString("email");
     }
     #setFromLimit(){
         let todaysDate = new Date().toISOString().split('T')[0];
@@ -94,7 +107,6 @@ class Navigation {
             notification.showNotification("Set at least from or to date",NOTIFICATION_TYPES.error);
             return;
         }
-        console.log(this.toDateRef.value)
         if( (this.toDateRef.value && this.fromDateRef.value)&& this.fromDateRef.value <= this.toDateRef.value){
             notification.showNotification("Start Date cannot be older than End date",NOTIFICATION_TYPES.error);
             return;
@@ -108,6 +120,11 @@ class Navigation {
     #setRangeToLocal(){
         //TODO: Complete this when you finish the auth
     }
+    logOut(){
+        dm.remove("token");
+        window.location.replace("../index.html");
+    }
 }
 let navigation = new Navigation();
 let inventoryNav = new Navigation();
+let usersNav = new Navigation();

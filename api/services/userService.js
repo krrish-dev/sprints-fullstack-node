@@ -65,6 +65,34 @@ const logoutUser = async (userId) => {
       throw error;
     }
   };
+  async function getUsers(callerId){
+    console.log(callerId);
+    let response = {success: true, status: 200};
+    let result = await User.find({_id:{$ne:callerId}}).select({
+      name: 1,
+      email: 1,
+      userRole:1
+    }).catch(err => {
+      response.status = 500;
+      response.success =false;
+      response.message = "Error occured while getting users";
+    });
+    if(!response.success) return response;
+    response.result = result;
+    return response;
+  }
+
+  async function updateUserRole(role, userId){
+    let response = {success: true, status: 200};
+    await User.findByIdAndUpdate(userId,{userRole: role}).catch(err => {
+      response.status = 500;
+      response.success = false;
+      response.message = "Error occured while updating";
+    });
+    if(!response.success) return response;
+    response.result = "Updated successfully";
+    return response;
+  }
   
   async function getNumberOfActiveUsers(dateFilter){
     let response = {success: true, status: 200};
@@ -104,5 +132,7 @@ module.exports = {
   logoutUser,
   savePasswordResetToken,
   resetUserPassword,
-  getNumberOfActiveUsers
+  getNumberOfActiveUsers,
+  getUsers,
+  updateUserRole
 };

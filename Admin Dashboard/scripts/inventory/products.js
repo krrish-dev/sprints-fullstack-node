@@ -45,7 +45,11 @@ class InventoryProducts{
     }
 
     async fetchProducts(){
-       let response = await services.getRequest(api.getProducts,this.#filter);
+       let response = await services.getRequest(api.getProducts,this.#filter).catch(e =>{
+        if(e === 401){
+          window.location.replace("../../index.html");
+        }
+     });
        if(!response.success)return;
       this.#managePagination(response);
       this.#products = response.result;
