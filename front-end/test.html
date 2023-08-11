@@ -65,13 +65,31 @@
                         <div style="text-align: center;" onclick="cartPopUp()" class="NavIcons"><i
                             style="margin-bottom: 5px;" class="fa-solid fa-cart-shopping"><span id="cartNumberId">0</span> </i>
                             <div>Your cart</div>
-                            <div id="popUp">
+                            <div id="popUp" style="overflow-x: hidden;">
                                 
                                 <div style="position: relative;">
                                     <i style="position: absolute; right:10px; top: 0px;" class="fa-solid fa-xmark"></i>
                                    
-                                <p>eeeeeeeeeeeeeee</p>
-                                <p>eeeeeeeeeeeeeee</p>
+                                <div class="d-flex" style="padding-left: 10px;">
+                                    <div style="width: 25%;padding: 5px 5px;">
+                                        <img src="/img/product01.png" style="width: 100%;">
+                                    </div>
+                                    <div style="width: 75%;">
+                                        <h6  style=" text-align: start;">name</h6>
+                                        <h6  style=" text-align: start;">price</h6>
+                                        <h6  style=" text-align: start;">x</h6>
+                                    </div>
+                                    <div class="cart-line"></div>
+                                    <div style="width: 25%;padding: 5px 5px;">
+                                        <img src="/img/product01.png" style="width: 100%;">
+                                    </div>
+                                    <div style="width: 75%;">
+                                        <h6  style=" text-align: start;">name</h6>
+                                        <h6  style=" text-align: start;">price</h6>
+                                        <h6  style=" text-align: start;">x</h6>
+                                    </div>
+                                    
+                                </div>
                               
 
                                 </div>
@@ -118,7 +136,195 @@
     </div>
 
 
-      
+    <section>
+        <div class="checkoutContainer">
+            <div class="billingInputsContainer">
+                <div class="row">
+
+                    <!-- Billing Details -->
+                    <div class="billing-details">
+                        <div class="section-title">
+                            <h3 class="title">Billing address</h3>
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="text" name="first-name" placeholder="First Name">
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="text" name="last-name" placeholder="Last Name">
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="email" name="email" placeholder="Email">
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="text" name="address" placeholder="Address">
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="text" name="city" placeholder="City">
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="text" name="country" placeholder="Country">
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+                        </div>
+                        <div class="itemInput">
+                            <input class="input" type="tel" name="tel" placeholder="Telephone">
+                        </div>
+                        <div class="itemInput">
+                            <div class="input-checkbox">
+                                <input type="checkbox" onchange="createAccCaption()" id="createAcountBtn">
+                                <label for="create-account">
+
+                                    Create Account?
+                                </label>
+                                <div class="create-acc-caption" id="createacccaption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt.</p>
+                                    <input class="input" type="password" name="password"
+                                        placeholder="Enter Your Password">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Billing Details -->
+
+                    <div class="shiping-details">
+                        <div class="section-title">
+                            <h3 class="title">Shiping address</h3>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="shippingcaptionBtn" onchange="shippingAdressCaption()">
+                            <label for="shiping-address">
+
+                                Ship to a diffrent address?
+                            </label>
+                            <div class="shipping-caption" id="shippingCaption">
+                                <div class="shippingInputs">
+                                    <input class="input" type="text" name="first-name" placeholder="First Name">
+                                </div>
+                                <div class="shippingInputs">
+                                    <input class="input" type="text" name="last-name" placeholder="Last Name">
+                                </div>
+                                <div class="shippingInputs">
+                                    <input class="input" type="email" name="email" placeholder="Email">
+                                </div>
+                                <div class="shippingInputs">
+                                    <input class="input" type="text" name="address" placeholder="Address">
+                                </div>
+                                <div class="shippingInputs">
+                                    <input class="input" type="text" name="city" placeholder="City">
+                                </div>
+                                <div class="shippingInputs">
+                                    <input class="input" type="text" name="country" placeholder="Country">
+                                </div>
+                                <div class="shippingInputs">
+                                    <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+                                </div>
+                                <div class="shippingInputs">
+                                    <input class="input" type="tel" name="tel" placeholder="Telephone">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Order notes -->
+                        <div class="order-notes">
+                            <textarea class="note-input" placeholder="Order Notes"></textarea>
+                        </div>
+                        <!-- /Order notes -->
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="orderSideContainer">
+                <!-- /Shiping Details -->
+                <div class="order-details">
+                    <div class="section-title text-center">
+                        <h3 class="title">Your Order</h3>
+                    </div>
+                    <div class="order-summary">
+                        <div class="center-ele">
+                            <div><strong>PRODUCT</strong></div>
+                            <div><strong>TOTAL</strong></div>
+                        </div>
+                        <div class="order-products">
+                            <div class="center-ele ">
+                                <div>1x Product Name Goes Here</div>
+                                <div>$980.00</div>
+                            </div>
+                            <div class="center-ele">
+                                <div>2x Product Name Goes Here</div>
+                                <div>$980.00</div>
+                            </div>
+                        </div>
+                        <div class="center-ele">
+                            <div>Shiping</div>
+                            <div><strong>FREE</strong></div>
+                        </div>
+                        <div class="center-ele">
+                            <div><strong>TOTAL</strong></div>
+                            <div><strong class="order-total">$2940.00</strong></div>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-label" class="directBankCaptionbtn">
+                            <label for="payment-1">
+
+                                Direct Bank Transfer
+                            </label>
+                            <div class="direct-bank-caption paymentCaption" id="directBankCaption">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-label">
+                            <label for="payment-2">
+
+                                Cheque Payment
+                            </label>
+                            <div class="check-caption paymentCaption" id="checkCaption">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-label">
+                            <label for="payment-3">
+
+                                Paypal System
+                            </label>
+                            <div class="paypal-caption paymentCaption" id="paypalCaption">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-checkbox">
+                        <input type="checkbox" id="terms">
+                        <label for="terms">
+
+                            I've read and accept the <a href="#">terms &amp; conditions</a>
+                        </label>
+                    </div>
+
+
+                </div>
+                <div class="btnContainer">
+                    <button class="place-order-btn"> <a href="#" class="primary-btn order-submit">Place order</a>
+                    </button>
+                </div>
+                <!-- Shiping Details -->
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </section>
 
 
 
@@ -215,6 +421,46 @@
         </div>
 
     </footer>
+    <div class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Your Cart</span>
+            <div class="qty">3</div>
+        </a>
+        <div class="cart-dropdown">
+            <div class="cart-list">
+                <div class="product-widget">
+                    <div class="product-img">
+                        <img src="./img/product01.png" alt="">
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                    </div>
+                    <button class="delete"><i class="fa fa-close"></i></button>
+                </div>
+
+                <div class="product-widget">
+                    <div class="product-img">
+                        <img src="./img/product02.png" alt="">
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                    </div>
+                    <button class="delete"><i class="fa fa-close"></i></button>
+                </div>
+            </div>
+            <div class="cart-summary">
+                <small>3 Item(s) selected</small>
+                <h5>SUBTOTAL: $2940.00</h5>
+            </div>
+            <div class="cart-btns">
+                <a href="#">View Cart</a>
+                <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
 
     <script src="https://kit.fontawesome.com/0b7a4d3757.js" crossorigin="anonymous"></script>
     <script src="./js/scriptShared.js" crossorigin="anonymous"></script>
