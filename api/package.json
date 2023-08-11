@@ -16,6 +16,11 @@
     "jsonwebtoken": "^9.0.1",
     "moment": "^2.29.4",
     "mongoose": "^7.4.1",
+<<<<<<< Updated upstream
+=======
+    "nodemailer": "^6.9.4",
+    "stripe": "^12.17.0",
+>>>>>>> Stashed changes
     "zod": "^3.21.4"
   }
 }
