@@ -96,7 +96,6 @@ const logoutUser = async (userId) => {
   }
 
   function toDate(dateString){
-    console.log(dateString);
     return new Date(dateString);
   }
 module.exports = {

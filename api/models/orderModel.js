@@ -226,11 +226,18 @@ async function resetCartAndProducts(cart, canceled = false) {
 }
 
 async function calculateInventory(filter) {
-  let matchQuery = {
-    createdAt: {}
-  };
-  if (filter && filter.from) matchQuery.createdAt.$gte = toDate(filter.from);
-  if (filter && filter.to) matchQuery.createdAt.$lte = toDate(filter.to);
+  let matchQuery
+  //let limit = {};
+  if (filter && filter.from) {
+    matchQuery = {createdAt: {}};
+    matchQuery.createdAt.$gte = toDate(filter.from);
+  }
+  if (filter && filter.to) {
+    if(!matchQuery) matchQuery = {createdAt: {}};
+    matchQuery.createdAt.$lte = toDate(filter.to);
+  }
+  if(!matchQuery) matchQuery = {};
+ // if (filter && filter.limit) limit = {$limit: filter.limit};
   let response = { success: true, status: 200 };
   let pipeline = [
     {
@@ -269,8 +276,10 @@ async function calculateInventory(filter) {
 
       },
     },
-    { $sort: { totalItemsSold: -1 } }
+    { $sort: { totalItemsSold: -1 } },
   ];
+  if(filter && filter.limit) pipeline.push({$limit: Number(filter.limit)});
+  console.log({$limit: Number(filter.limit)});
   let result = await Order.aggregate(pipeline).catch(err => {
     console.log(err);
     response.status = 500;
@@ -313,16 +322,16 @@ async function getDashboardInfo(filter) {
       $lte: currentDate
     }
   }
-  let [[totalSold], [weekSold], activeUsers] = await Promise.all([
+  let [[totalSold], [weekSold], activeUsers]  = await Promise.all([
     getSoldItemsCount(matchQuery),
     getSoldItemsCount(weekPeriodFilter),
     userModel.getNumberOfActiveUsers(filter)
   ]);
   let response = {
-    periodSold: totalSold.totalSold,
-    periodEarnings: totalSold.totalEarnings,
-    weekSold: weekSold.totalSold,
-    weekEarnings: weekSold.totalEarnings,
+    periodSold: totalSold ? totalSold.totalSold: 0,
+    periodEarnings: totalSold ? totalSold.totalEarnings:0,
+    weekSold: weekSold ? weekSold.totalSold : 0,
+    weekEarnings: weekSold ? weekSold.totalEarnings : 0,
     activeUsers: activeUsers.result
   };
   return response;
@@ -331,7 +340,7 @@ async function getDashboardInfo(filter) {
 async function getOrdersByStatus(status) {
   let response = { success: true, status: 200 };
   let result = await Order.find({ orderStatus: status })
-  .select({'customerInfo.userId':1, billSummary:1})
+  .select({'customerInfo.userId':1, billSummary:1, orderStatus:1, createdAt:1})
     .populate('customerInfo.userId', ['name', 'email'])
     .exec()
     .catch(err => {

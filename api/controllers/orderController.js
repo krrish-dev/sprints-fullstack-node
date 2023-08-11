@@ -32,7 +32,6 @@ async function onPaymentCancelled(req, res){
 }
 
 async function calculateInventory(req, res){
-    console.log("Hello world");
     let response = await orderModel.calculateInventory(req.query);
     res.status(response.status??200).send(response);
 }
