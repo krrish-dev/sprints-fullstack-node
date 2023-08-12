@@ -1,5 +1,6 @@
 // models/user.js
 const mongoose = require('mongoose');
+const constants = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -16,6 +17,8 @@ const userSchema = new mongoose.Schema({
   state: { type: String },
   isAdmin: { type: Boolean, default: false }, // For admin rank
   isSuperAdmin: { type: Boolean, default: false }, // For super-admin rank
+  userRole: { type: String, default: constants.Roles.customer},
+  cartId: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart'},
   // Add any other user-related fields here, e.g., userImage, cart, orders, etc.
   // ...
   createdAt: { type: Date, default: Date.now },

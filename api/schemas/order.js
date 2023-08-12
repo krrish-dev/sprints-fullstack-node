@@ -1,28 +1,29 @@
 const mongoose = require('mongoose');
+const Constants = require('../utils/constants');
 const Schema = mongoose.Schema;
 const order = {
-    cutomerInfo:{
+    customerInfo:{
         userId: { type: Schema.Types.ObjectId, ref:'User'},
         mobile: { type: String, defalut:""},
         addressLine:{ type: String, defalut: ""},
-        city: { type: String, default:""},
+        district: { type: String, default:""},
         state: { type: String, default:""}
     },
     products:[
         {
             productId:{type: Schema.Types.ObjectId, ref:'Product'},
             title:{type:String, required:true},
-            authorName:{type: String, default:""},
+            buyingPrice:{type: Number, default:1},
             price:{type:Number, required:true},
             itemsCount:{type: Number, default:1},
-            img:{type:String, default:"*"},
             total:{type:Number, default:0}
         }
     ],
     billSummary:{
         paymentMethod:{type: String, default:"COD"},
         totalPrice: {type: Number, default:0}
-    }
+    },
+    orderStatus:{type:String, default: Constants.ORDER_STATUS.received},
 }
 
 const orderSchema = new Schema(order,{
@@ -31,3 +32,13 @@ const orderSchema = new Schema(order,{
 const Order = mongoose.model('Order', orderSchema,);
 
 module.exports = Order;
+
+/*
+{
+    "mobile":"",
+    "addressLine":"",
+    "city":"",
+    "state":"",
+    "paymentMethod":""
+}
+*/

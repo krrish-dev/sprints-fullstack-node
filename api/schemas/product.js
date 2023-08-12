@@ -9,12 +9,13 @@ const product = {
     img: [String],
     description: { type: String, default:""},
     keywords: { type: String, default:""},
-    category:{type:String, required: true}
+    category:{type:String, required: true},
+    stripPriceId: { type: String, default:""}
 }
 //type: Schema.Types.ObjectId, ref:'Category'
 
 const productSchema = new Schema(product, { timestamps: true });
 productSchema.index({isbn:'text', title:'text', authorName:'text', description:'text', keywords:'text'});
 const Product = mongoose.model('Product', productSchema);
-Product.createIndexes();
+Product.createIndexes({ maxTimeMS: 20000 });
 module.exports = Product;

@@ -2,6 +2,8 @@ const userService = require('../services/userService');
 const jwt = require('jsonwebtoken');
 const { z } = require('zod');
 const nodemailer = require('nodemailer');
+const constants = require('../utils/constants');
+
 
 const registerSchema = z.object({
   name: z.string(),
@@ -32,27 +34,21 @@ const isValidPassword = (password) => {
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = registerSchema.parse(req.body);
-
     await userService.registerUser(name, email, password);
-
-    return res.status(201).json({ message: 'User registered successfully' });
+    return res.status(201).send({ success: true, message: 'User registered successfully' });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ success: true, message: error.message });
   }
 };
 
 const loginUser = async (req, res) => {
   try {
     const { email, password } = loginUserSchema.parse(req.body);
-
     const user = await userService.loginUser(email, password);
-
-    // Create and send JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    return res.status(200).json({ message: 'Login successful', token, user: { name: user.name } });
+    const token = jwt.sign({ userId: user._id, userRole: user.userRole, cartId: user.cartId}, process.env.JWT_SECRET/*, { expiresIn: '1h' }*/);
+    return res.status(200).json({ success: true, message: 'Login successful', token, user: { name: user.name } });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ success: false, message: error.message });
   }
 };
 
@@ -107,37 +103,59 @@ const resetPassword = async (req, res) => {
 
 // Nodemailer function to send the password reset email
 const sendPasswordResetEmail = async (email, token) => {
-    try {
-      // Create a Nodemailer transporter using SMTP with your personal email credentials
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: false,
-        auth: {
-          user: 'teamcodemaster@gmail.com', // Replace with your Gmail email address
-          pass: 'qxtgcdlaxzkhdnin', // Replace with your Gmail email password or app-specific password
-        },
-      });
-  
-      const mailOptions = {
-        from: 'teamcodemaster@gmail.com', // Replace with your email address
-        to: email,
-        subject: 'Password Reset',
-        text: `Click the following link to reset your password: ${process.env.APP_URL}/reset-password?token=${token}`,
-      };
-  
-      // Send the email
-      await transporter.sendMail(mailOptions);
-    } catch (error) {
-      throw error;
-    }
-  };
+  try {
+    // Create a Nodemailer transporter using SMTP with your personal email credentials
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: false,
+      auth: {
+        user: 'teamcodemaster@gmail.com', // Replace with your Gmail email address
+        pass: 'qxtgcdlaxzkhdnin', // Replace with your Gmail email password or app-specific password
+      },
+    });
 
+    const mailOptions = {
+      from: 'teamcodemaster@gmail.com', // Replace with your email address
+      to: email,
+      subject: 'Password Reset',
+      text: `Click the following link to reset your password: ${process.env.APP_FRONT}/reset-password.html?token=${token}`,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getNumberOfActiveUsers = async (req, res)=>{
+ let response = await userService.getNumberOfActiveUsers(req.query);
+ res.status(response.status??200).send(response);
+}
+
+const getUsers = async (req, res)=>{
+  let response = await userService.getUsers(req.user.userId);
+  res.status(response.status??200).send(response);
+}
+
+const updateUserRole = async(req, res)=>{
+  let body = req.body;
+  if(!body.role || !constants.Roles[body.role]||!body.userId){
+    res.status(400).send({success: false, message:"Bad request."});
+    return;
+  }
+  let response = await userService.updateUserRole(body.role, body.userId);
+  res.status(response.status??200).send(response);
+}
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   forgotPassword,
   resetPassword,
+  getNumberOfActiveUsers,
+  getUsers,
+  updateUserRole
 };
