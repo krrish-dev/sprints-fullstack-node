@@ -1,11 +1,13 @@
 // routes/auth.js
 const express = require('express');
 const router = express.Router();
+const { googleLogin } = require('../controllers/authController')
 const userController = require('../controllers/userController');
 const { authenticateToken } = require('../utils/authorization');
 const authorization = require('../utils/authorization');
 const constants = require('../utils/constants');
 
+router.post('/google-login', googleLogin);
 router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 router.post('/logout', authenticateToken, userController.logoutUser); // Ensure authentication middleware is applied

@@ -298,3 +298,40 @@ function handleLogout(event) {
 
 
 
+//login with google
+// Load the Google API client library
+gapi.load('auth2', () => {
+  gapi.auth2.init({
+    client_id: '792002934801-9oe7b3563fitfaanqqgv179kksrmhqrp.apps.googleusercontent.com',
+  });
+  
+  // Attach event listener to the "Login with Google" button
+  document.getElementById('googleLoginButton').addEventListener('click', async () => {
+    try {
+      const authResponse = await gapi.auth2.getAuthInstance().signIn();
+      const idToken = authResponse.getAuthResponse().id_token;
+  
+      // Send the Google ID token to your backend
+      const response = await fetch('http://localhost:3000/google-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+  
+      const data = await response.json();
+      // Handle successful login response
+      console.log(data);
+    } catch (error) {
+      // Handle login error
+      console.error(error.message);
+    }
+  });
+});
+
