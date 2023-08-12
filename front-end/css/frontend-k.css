@@ -158,4 +158,14 @@ section.login {
   .signup-link a:hover {
     text-decoration: underline;
   }
+
+  .error-message {
+    color: #721c24; /* Text color for danger messages */
+    background-color: #f8d7da; /* Background color for danger messages */
+    border: 1px solid #f5c6cb; /* Border color for danger messages */
+    padding: 0.75rem 1.25rem; /* Padding for the error message */
+    border-radius: 0.25rem; /* Border radius for the error message */
+    margin-top: 10px; /* Margin above the error message */
+  }
+  
   
