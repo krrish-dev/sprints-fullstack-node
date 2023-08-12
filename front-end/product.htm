@@ -15,7 +15,7 @@
 
     <div style="background-color: #1E1F29">
         <nav class="container ">
-            <div  class="d-flex" style="justify-content: space-between; align-items: center;">
+            <div class="d-flex" style="justify-content: space-between; align-items: center;">
                 <div>
                     <ul class="navBarList">
                         <li><span><i class="fa-solid fa-magnifying-glass"></i></span> +021-95-51-84 </li>
@@ -39,9 +39,9 @@
     </div>
     <div class="secondaryNav">
         <nav class="container ">
-            <div  class="d-flex " >
+            <div class="d-flex ">
                 <div class="col-md-3 navBarImg">
-                    <img src="./img/logo.png">
+                    <img src="../src/logo.png">
                 </div>
                 <div class="col-md-6 searchBar">
                     <div style=" width: 100%;" class="header-search">
@@ -50,34 +50,37 @@
                                 <option value="0">Name</option>
                                 <option value="1">Category</option>
                             </select>
-                            <input style="display: inline-block;" id="searchValue" class="input" placeholder="Search here"><button
-                                style="display: inline-block;margin-left:-4px;"type="button" id="Search" class="search-btn">Search</button>
+                            <input style="display: inline-block;" id="searchValue" class="input"
+                                placeholder="Search here"><button style="display: inline-block;margin-left:-4px;"
+                                type="button" id="Search" class="search-btn">Search</button>
                         </form>
                     </div>
                 </div>
 
                 <div style=" position: relative;" class="col-md-3 navIcons">
-                    <div  class="d-flex NavIconsLeft">
+                    <div class="d-flex NavIconsLeft">
 
-                        <div style="text-align: center;" class="NavIcons"><i style="margin-bottom: 5px;" class="fa-regular fa-heart ">
-                            <span id="wishListNumberId">0</span>
+                        <div style="text-align: center;" class="NavIcons"><i style="margin-bottom: 5px;"
+                                class="fa-regular fa-heart ">
+                                <span id="wishListNumberId">0</span>
                             </i>
-                            <div >Your Wishlist</div>
+                            <div>Your Wishlist</div>
                         </div>
                         <div style="text-align: center;" onclick="cartPopUp()" class="NavIcons"><i
-                            style="margin-bottom: 5px;" class="fa-solid fa-cart-shopping"><span id="cartNumberId">0</span> </i>
+                                style="margin-bottom: 5px;" class="fa-solid fa-cart-shopping"><span
+                                    id="cartNumberId">0</span> </i>
                             <div>Your cart</div>
                             <div id="popUp">
-                                
+
                                 <div style="position: relative;">
                                     <i style="position: absolute; right:10px; top: 0px;" class="fa-solid fa-xmark"></i>
-                                   
-                                <p>eeeeeeeeeeeeeee</p>
-                                <p>eeeeeeeeeeeeeee</p>
-                              
+
+                                    <p>eeeeeeeeeeeeeee</p>
+                                    <p>eeeeeeeeeeeeeee</p>
+
 
                                 </div>
-                               
+
                             </div>
                         </div>
                         <div class="navMenuIcon menu-toggle" style="text-align: center;" class="NavIcons">
@@ -160,7 +163,7 @@
                 </div>
             </div>
             <div class="discreptionContainer">
-                <h1>PRODUCT NAME GOES HERE</h1>
+                <h1 id="productName">Product Name</h1>
                 <div class="starRating">
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
@@ -240,7 +243,7 @@
 
 
             </div><br>
-            <div >
+            <div>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat ex recusandae perferendis,
                 quia nobis aut quam. Voluptas amet eaque doloribus, officiis neque cupiditate labore mollitia explicabo
                 quaerat libero sequi.
@@ -285,97 +288,98 @@
             </div>
         </div>
     </section>
-     <!-- ---------Footer-------- -->
-     <div style="height: 70vh;"></div>
-     <div class="redLine"></div>
- 
-     <footer id="footer" class="">
-         <div class="container">
-             
-             <div  class="d-flex" style="align-items: center;">
-                 <div  class="col-md-3 col-footer footerColum">
-                     <div>
-                    <h3>
-                     ABOUT US
-                    </h3>
-                    <p>
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod  </p>
-                   <ul>
-                     <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-                     <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-                     <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
-                   </ul>
-                 </div>
-                 </div>
-                 <div  class="col-md-3 col-footer footerColum">
-                     <div>
-                     <h3>
-                         CATEGORIES
-                     </h3>
-                     <ul>
-                         <li><a href="#">Hot deals</a></li>
-                         <li><a href="#">Laptops</a></li>
-                         <li><a href="#">Smartphones</a></li>
-                         <li><a href="#">Cameras</a></li>
-                         <li><a href="#">Accessories</a></li>
-                     </ul>
-                 </div>
-                  </div>
-                  <div class="clearfix visible-xs"></div>
-                  <div class="col-md-3 col-footer footerColum">
-                     <div>
-                     <h3>
-                         INFORMATION
-                     </h3>
-                    <ul>
-                         <li><a href="#">About Us</a></li>
-                         <li><a href="#">Contact Us</a></li>
-                         <li><a href="#">Privacy Policy</a></li>
-                         <li><a href="#">Orders and Returns</a></li>
-                         <li><a href="#">Terms & Conditions</a></li>
-                     </ul>
-                  </div>
-                 </div>
-                  <div class="col-md-3 col-footer footerColum" >
-                     <div>
-                         <h3>
-                             SERVICE
-                         </h3>
-                         <ul>
-                             <li><a href="#">My Account</a></li>
-                             <li><a href="#">View Cart</a></li>
-                             <li><a href="#">Wishlist</a></li>
-                             <li><a href="#">Track My Order</a></li>
-                             <li><a href="#">Help</a></li>
-                         </ul>
-                     </div>
- 
-                  </div>
- 
-                
-             </div>
- 
-         </div>
-         <div style="    background: #1E1F29;" >
-             <div class="container">
-                 <div class="d-flex footerIcons">
-         <div><i class="fa-brands fa-cc-visa"></i></div>
-         <div><i class="fa-regular fa-credit-card"></i></div>
-         <div><i class="fa-brands fa-cc-paypal"></i></div>   
-         <div><i class="fa-brands fa-cc-mastercard"></i></div>
-         <div><i class="fa-brands fa-cc-discover"></i></div>
-         <div><i class="fa-brands fa-cc-amex"></i></div>
- 
- </div>
- <div class="footerLastText ">
-     Copyright ©2023 All rights reserved | This template is made with <span><i class="fa-regular fa-heart"></i></span> by Team 5</div>
- 
- </div>
- 
-         </div>
- 
-     </footer>
-     <!-- ---------Footer-------- -->
+    <!-- ---------Footer-------- -->
+    <div style="height: 70vh;"></div>
+    <div class="redLine"></div>
+
+    <footer id="footer" class="">
+        <div class="container">
+
+            <div class="d-flex" style="align-items: center;">
+                <div class="col-md-3 col-footer footerColum">
+                    <div>
+                        <h3>
+                            ABOUT US
+                        </h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod </p>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-footer footerColum">
+                    <div>
+                        <h3>
+                            CATEGORIES
+                        </h3>
+                        <ul>
+                            <li><a href="#">Hot deals</a></li>
+                            <li><a href="#">Laptops</a></li>
+                            <li><a href="#">Smartphones</a></li>
+                            <li><a href="#">Cameras</a></li>
+                            <li><a href="#">Accessories</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="col-md-3 col-footer footerColum">
+                    <div>
+                        <h3>
+                            INFORMATION
+                        </h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Orders and Returns</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-footer footerColum">
+                    <div>
+                        <h3>
+                            SERVICE
+                        </h3>
+                        <ul>
+                            <li><a href="#">My Account</a></li>
+                            <li><a href="#">View Cart</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="#">Help</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div style="    background: #1E1F29;">
+            <div class="container">
+                <div class="d-flex footerIcons">
+                    <div><i class="fa-brands fa-cc-visa"></i></div>
+                    <div><i class="fa-regular fa-credit-card"></i></div>
+                    <div><i class="fa-brands fa-cc-paypal"></i></div>
+                    <div><i class="fa-brands fa-cc-mastercard"></i></div>
+                    <div><i class="fa-brands fa-cc-discover"></i></div>
+                    <div><i class="fa-brands fa-cc-amex"></i></div>
+
+                </div>
+                <div class="footerLastText ">
+                    Copyright ©2023 All rights reserved | This template is made with <span><i
+                            class="fa-regular fa-heart"></i></span> by Team 5</div>
+
+            </div>
+
+        </div>
+
+    </footer>
+    <!-- ---------Footer-------- -->
     <script src="../js/product.js"></script>
     <script src="../js/checkout.js"></script>
 </body>
