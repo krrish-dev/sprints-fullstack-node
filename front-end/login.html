@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./fontawesome-free-6.4.0-web/css/all.min.css">
     <link rel="stylesheet" href="./css/frontend-k.css">
     <title>Store Login page </title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
 <body>
@@ -26,9 +27,12 @@
                 <div>
 
                     <ul class="navBarList ">
-                        <li><span><i class="fa-solid fa-dollar-sign"></i></span> USD</li>
-
-                        <li class="navBarListRightLi"><span><i class="fa-regular fa-user"></i></span> My Account</li>
+                        <li class="navBarListRightLi">
+                            <span><i class="fa-regular fa-user"></i></span>
+                            <span id="userNamePlaceholder">My Account</span>
+                            <a href="#" id="logoutLink" style="margin-left: 10px; color: white;">Logout</a>
+                            <a href="/login.html" id="loginLink" style="margin-left: 10px; color: white; display: none;">Login</a>
+                        </li>
 
                     </ul>
                 </div>
@@ -116,15 +120,23 @@
 				  <label for="email">Email:</label>
 				  <input type="email" id="email" name="email" required>
 				</div>
+                <br>
 				<div class="password-input">
-				  <label for="password">Password:</label>
-				  <input type="password" id="password" name="password" required>
-				  <span class="password-toggle" onclick="togglePasswordVisibility()">
-					<i class="fa fa-eye" id="eye-icon" style="color: black;"></i>
-				  </span>
-				</div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required name="password">
+                    <span class="password-toggle" onclick="togglePasswordVisibility('password')">
+                      <i class="fa fa-eye" id="password-eye-icon" style="color: black;"></i>
+                    </span>
+                  </div>  
+                  <br>
+                  <!-- <div class="error-message" id="errorMessage"></div>    -->
+                  <br>            
 				<button type="submit">Login</button>
 			  </form>
+              <br>
+              <button id="googleLoginButton">Login with Google</button>
+              <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+              <br>
 			  <div class="forgot-password">
 				<a href="forget-pw.html">Forgot Password?</a>
 			  </div>
@@ -237,6 +249,7 @@
 
     <script src="./js/script.js" crossorigin="anonymous"></script>
     <script src="./js/frontend-k.js"></script>
+  
 
 </body>
 

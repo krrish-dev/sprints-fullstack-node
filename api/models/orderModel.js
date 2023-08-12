@@ -279,7 +279,6 @@ async function calculateInventory(filter) {
     { $sort: { totalItemsSold: -1 } },
   ];
   if(filter && filter.limit) pipeline.push({$limit: Number(filter.limit)});
-  console.log({$limit: Number(filter.limit)});
   let result = await Order.aggregate(pipeline).catch(err => {
     console.log(err);
     response.status = 500;

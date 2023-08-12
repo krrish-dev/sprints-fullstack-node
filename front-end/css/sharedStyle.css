@@ -284,12 +284,33 @@ font-size: 1.2rem;
 #popUp{
   position: absolute;
   overflow-x: hidden;
-   background-color: rgba(51, 51, 51, 0.799); 
+   background-color: rgb(255, 255, 255); 
    top:50px;left: 0;right: 0 ;height: auto;
+   color: #15161D;
+   font-size: 1rem;
    z-index: 50; 
    max-height: 300px;
-   display: none;
+  
    overflow-y:scroll;
+}
+.checkOut{
+  height: 50px;
+
+
+  color: black;
+  font-size: 1.3rem;
+  display: inline;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.btnCheckout{
+  font-size: 1.3rem;
+  border: 1px solid white;
+  
+  width: 100%;
+ height: 50px;
+ background-color: #D10024;
+ color: white;
 }
 #closePopUp{
   position: absolute; right:10px; top: 0px;padding:10px;z-index:10;

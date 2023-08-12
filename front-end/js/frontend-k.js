@@ -1,17 +1,18 @@
- function togglePasswordVisibility(fieldId) {
-    const passwordInput = document.getElementById(fieldId);
-    const eyeIcon = document.getElementById("eye-icon");
-  
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-      eyeIcon.classList.remove("fa-eye-slash");
-      eyeIcon.classList.add("fa-eye");
-    } else {
-      passwordInput.type = "password";
-      eyeIcon.classList.remove("fa-eye");
-      eyeIcon.classList.add("fa-eye-slash");
-    }
+function togglePasswordVisibility(fieldId) {
+  const passwordInput = document.getElementById(fieldId);
+  const eyeIcon = document.getElementById(`${fieldId}-eye-icon`);
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  } else {
+    passwordInput.type = "password";
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
   }
+}
+
   
   function setTokenFromQueryParams() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -21,6 +22,9 @@
       tokenInput.value = token;
     }
   }
+
+  let errorMessageCreated = false;
+
   async function handleLoginSubmit(event) {
     event.preventDefault();
   
@@ -39,17 +43,54 @@
   
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
+        const errorMessage = errorData.message || 'An error occurred during login.';
+        
+        if (!errorMessageCreated) {
+          // Create and display the error message
+          const errorMessageElement = document.createElement('div');
+          errorMessageElement.classList.add('error-message');
+          errorMessageElement.textContent = errorMessage;
+          document.getElementById('loginForm').appendChild(errorMessageElement);
+          
+          errorMessageCreated = true;
+        } else {
+          // Update existing error message
+          const errorMessageElement = document.querySelector('.error-message');
+          if (errorMessageElement) {
+            errorMessageElement.textContent = errorMessage;
+          }
+        }
   
-      const data = await response.json();
-      // Handle the successful login response here
-      console.log(data);
+        throw new Error(errorMessage);
+      } else {
+        // Clear error message if it exists
+        const errorMessageElement = document.querySelector('.error-message');
+        if (errorMessageElement) {
+          errorMessageElement.remove();
+          errorMessageCreated = false;
+        }
+        
+        const data = await response.json();
+        // Handle the successful login response here
+        console.log(data);
+  
+        // Save the token and user name to local storage
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+          localStorage.setItem('userName', data.user.name);
+        }
+  
+        // Redirect the user to their dashboard or another page
+        // Replace '/dashboard' with the actual URL you want to redirect to
+        window.location.href = '/index.html';
+      }
     } catch (error) {
       // Handle any errors that occur during the login process
       console.error(error.message);
     }
   }
+  
+
   
   async function handleRegisterSubmit(event) {
     event.preventDefault();
@@ -208,3 +249,89 @@
       setTokenFromQueryParams();
     }
   }
+
+  //start navbar 
+// Retrieve the user's name from local storage
+const userName = localStorage.getItem('userName');
+const authToken = localStorage.getItem('authToken');
+
+if (userName && authToken) {
+  // Update the content of the span element with the user's name
+  const userNamePlaceholder = document.getElementById('userNamePlaceholder');
+  userNamePlaceholder.textContent = `Welcome, ${userName}`;
+
+  // Add event listener to the logout link
+  const logoutLink = document.getElementById('logoutLink');
+  logoutLink.addEventListener('click', handleLogout);
+
+  // Show the logout link and hide the login link
+  logoutLink.style.display = 'inline';
+  const loginLink = document.getElementById('loginLink');
+  loginLink.style.display = 'none';
+} else {
+  // Show the login link and hide the logout link
+  const loginLink = document.getElementById('loginLink');
+  loginLink.style.display = 'inline';
+  const logoutLink = document.getElementById('logoutLink');
+  logoutLink.style.display = 'none';
+}
+
+// Logout function
+function handleLogout(event) {
+  event.preventDefault();
+
+  // Clear the authentication token and user name from local storage
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('userName');
+
+  // Show the login link and hide the logout link
+  loginLink.style.display = 'inline';
+  logoutLink.style.display = 'none';
+
+  // Hide the welcome message and user icon
+  const userNamePlaceholder = document.getElementById('userNamePlaceholder');
+  userNamePlaceholder.textContent = ''; // Clear the text
+  // Assuming you have an element for the user icon, hide it
+  const userIcon = document.getElementById('userIcon');
+  userIcon.style.display = 'none';
+}
+
+
+
+//login with google
+// Load the Google API client library
+gapi.load('auth2', () => {
+  gapi.auth2.init({
+    client_id: '792002934801-9oe7b3563fitfaanqqgv179kksrmhqrp.apps.googleusercontent.com',
+  });
+  
+  // Attach event listener to the "Login with Google" button
+  document.getElementById('googleLoginButton').addEventListener('click', async () => {
+    try {
+      const authResponse = await gapi.auth2.getAuthInstance().signIn();
+      const idToken = authResponse.getAuthResponse().id_token;
+  
+      // Send the Google ID token to your backend
+      const response = await fetch('http://localhost:3000/google-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+  
+      const data = await response.json();
+      // Handle successful login response
+      console.log(data);
+    } catch (error) {
+      // Handle login error
+      console.error(error.message);
+    }
+  });
+});
+

@@ -1,6 +1,6 @@
 let x =document.getElementById('displayProducts')
 let searchResult= JSON.parse(localStorage.getItem('searchResult')) 
-console.log(searchResult)
+
 function getProduct(){
 	if(searchResult==null){
 		document.getElementById('displayProducts').innerHTML=`<h1>nohing was found</h1>`

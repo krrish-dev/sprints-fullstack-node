@@ -99,6 +99,12 @@ body{
    background-color: var(--orange);
    border-radius: 50%;
    display: inline-flexbox;
+   overflow: hidden;
+}
+.profileImage > img{
+    width: 80px;
+    height: auto;
+    object-fit: fill;
 }
 .userInfo{
     padding: 2vw 2vh;

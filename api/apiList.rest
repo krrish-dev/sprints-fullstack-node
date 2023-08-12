@@ -4,8 +4,8 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-    "name":"Team5Email",
-    "email":"team5@gmail.com",
+    "name":"Jeo",
+    "email":"fyoussef25@gmail.com",
     "password":"123456789"
 }
 ### login 
@@ -141,3 +141,15 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/ordersByStatus?status=received
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImFkbWluIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkxMjc4NDAxfQ.cXGPlgwPS1ziyabataXBVNKD_-R6y2ZisW5FimUh0Ao
+### 64d685a88ac14b2c9c9acf5b
+GET http://localhost:3000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImFkbWluIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkxMjc4NDAxfQ.cXGPlgwPS1ziyabataXBVNKD_-R6y2ZisW5FimUh0Ao
+###
+PUT http://localhost:3000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6InN1cGVyYWRtaW4iLCJjYXJ0SWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTgiLCJpYXQiOjE2OTE3ODkzMzB9._A7TzTSk6SO_Srd8JuYPV0yBQiLpFIroCYV9Mwt4Fgs
+Content-Type: application/json
+
+{
+    "userId":"64d685a88ac14b2c9c9acf5b",
+    "role":"admin"
+}

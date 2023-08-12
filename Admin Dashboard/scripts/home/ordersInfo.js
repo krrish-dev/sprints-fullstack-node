@@ -24,7 +24,11 @@ class Orders {
         //this.orderStatusSelectRef = document.getElementById(STATUS_SELECT);
     }
     async getOrders(orderStatus) {
-        let ordersData = await services.getRequest(api.getOrdersByStatus, { status: orderStatus });
+        let ordersData = await services.getRequest(api.getOrdersByStatus, { status: orderStatus }).catch(e =>{
+           if(e === 401){
+             window.location.replace("../../index.html");
+           }
+        });
         if (!ordersData.success) {
             this.ordersListRef.innerHTML = this.#getOrdersMessagesNoftifier(ordersData.message ?? DEFUALT_ERROR_MSG);
             this.#changeOrdersContainerColor(this.ORDERS_STATUS_COLOR.none);
