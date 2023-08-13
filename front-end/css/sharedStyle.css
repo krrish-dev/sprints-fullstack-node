@@ -290,7 +290,6 @@ font-size: 1.2rem;
    font-size: 1rem;
    z-index: 50; 
    max-height: 300px;
-  
    overflow-y:scroll;
 }
 .checkOut{

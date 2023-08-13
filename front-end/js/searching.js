@@ -1,14 +1,15 @@
-let x =document.getElementById('displayProducts')
+let x =document.getElementById('displaySearchProducts')
 let searchResult= JSON.parse(localStorage.getItem('searchResult')) 
 
 function getProduct(){
+	console.log(searchResult+"eee")
 	if(searchResult==null){
-		document.getElementById('displayProducts').innerHTML=`<h1>nohing was found</h1>`
+		document.getElementById('displaySearchProducts').innerHTML=`<h1>nohing was found</h1>`
 	}else{
 		let data=''
 		for(let i=0;i<searchResult.length;i++){
 			let id=searchResult[i]._id
-			data+=`<div style="padding: 0px 5px; " class="col-md-3">
+			data+=`<div style="padding: 0px 5px;margin-bottom:70px; " class="col-md-3">
 			<div class="product ">
 			<div class="product-img">
 					<img src="${searchResult[i].img}" style="height:319.5px; width:100%" alt="">
@@ -29,7 +30,6 @@ function getProduct(){
 						<i class="fa fa-star"></i>
 					</div>
 					<div class="product-btns">
-				
 						<button  onclick="addTowishList('${id}')" type="button" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 						<button onclick="location.href = '/productSearch/${id}.html' class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">View</span></button>
 					</div>
@@ -40,7 +40,7 @@ function getProduct(){
 			</div>
 		</div>`
 		}
-		document.getElementById('displayProducts').innerHTML=data
+		document.getElementById('displaySearchProducts').innerHTML=data
 	}
 	
 

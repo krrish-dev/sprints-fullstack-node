@@ -1,6 +1,8 @@
 let menuClick = document.getElementById("menuClick");
-const Authentication = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ1NWEyY2ZlOWU1N2ZkMjMzYzc4M2IiLCJ1c2VyUm9sZSI6ImN1c3RvbWVyIiwiY2FydElkIjoiNjRkNTVhMmNmZTllNTdmZDIzM2M3ODNkIiwiaWF0IjoxNjkxNzA0MDE0fQ.eLeTA0_UlLkUgvPIfC9jJsnI8ZgGeD32o4Kx2dkcxsw`;
-const Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGM2NmQwMmY0NjNlM2U4MWUwMDYwNTYiLCJ1c2VyUm9sZSI6ImFkbWluIiwiY2FydElkIjoiNjRjNjZkMDJmNDYzZTNlODFlMDA2MDU4IiwiaWF0IjoxNjkxMjc4NDAxfQ.cXGPlgwPS1ziyabataXBVNKD_-R6y2ZisW5FimUh0Ao`;
+// 
+// const Authentication = 
+
+const Authorization = localStorage.getItem("authToken");
 let Search = document.getElementById("Search");
 let dropdownSearch = document.getElementById("dropdownSearch");
 let products;
@@ -14,37 +16,48 @@ menuClick.addEventListener("click", function (e) {
 });
 
 async function getCart() {
-  document.getElementById("cartItems");
-  const rawResponse = await fetch("http://localhost:3000/cart", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authentication: Authentication,
-
-      Authorization: Authorization,
-    },
-  });
-  const content = await rawResponse.json();
-  let item = content.result.products;
-  if (content.result.products.length == 0) {
-    document.getElementById("cartItems").innerHTML = "<h1>no items added</h1>";
-  } else {
-    let data = "";
-    for (let i = 0; i < 4; i++) {
-      // let id=item[i]._id
-      data += `
-				<h1 style="height:500px">
-				${item[1].product.title}
-				</h1>
-			
-`;
+  if(Authentication==null){
+    window.alert("please login first");
+    window.location.href="/login.html";
+  }else{
+    document.getElementById("cartItems");
+ 
+    const rawResponse = await fetch("http://localhost:3000/cart", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authentication: Authentication,
+  
+        Authorization: Authorization,
+      },
+    });
+    const content = await rawResponse.json();
+    let item = content.result.products;
+    if (content.result.products.length == 0) {
+      document.getElementById("cartItems").innerHTML = "<h1>no items added</h1>";
+    } else {
+      let data = "";
+      for (let i = 0; i < 4; i++) {
+        // let id=item[i]._id
+        data += `
+          <h1 style="height:500px">
+          ${item[1].product.title}
+          </h1>
+        
+  `;
+      }
+      document.getElementById("cartItems").innerHTML = data;
     }
-    document.getElementById("cartItems").innerHTML = data;
+    return item;
   }
-  return item;
+
 }
 async function cartPopUp() {
+  if(Authentication==null){
+    window.alert("please login first");
+    window.location.href="/login.html";
+  }else{
   let data = `<div style="position: relative;">
 	<i id="closePopUp" class="fa-solid fa-xmark" style="font-size:1.4rem" onclick="closePopUp()"></i>`;
   document.getElementById("popUp").innerHTML = data;
@@ -53,10 +66,10 @@ async function cartPopUp() {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authentication: Authentication,
       Authorization: Authorization,
     },
   });
+  console.log('rawResponse')
   const content = await rawResponse.json();
   let item = content.result.products;
   let totalPrice=0
@@ -90,7 +103,9 @@ async function cartPopUp() {
   document.getElementById("popUp").innerHTML = data;
   document.getElementById("popUp").style.display = "block";
 }
+}
 async function getCartItemsCount() {
+  
 	let data = `<div style="position: relative;">
 	  <i id="closePopUp" class="fa-solid fa-xmark" onclick="closePopUp()"></i>`;
 	document.getElementById("popUp").innerHTML = data;
@@ -109,7 +124,6 @@ async function getCartItemsCount() {
 	for (let i = 0; i < cartProducts.length; i++) {
 	  productsCount = cartProducts[i].itemsCount + productsCount;
 	}
-	console.log(cartProducts)
 	document.getElementById("cartNumberId").innerHTML = productsCount;
 }
 getCartItemsCount()
@@ -117,12 +131,13 @@ function closePopUp() {
   document.getElementById("popUp").style.display = "none";
 }
 async function addToCartItem(productId) {
+    
   const rawResponse = await fetch("http://localhost:3000/cartItem", {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authentication: Authentication,
+     
       Authorization: Authorization,
     },
     body: JSON.stringify({
@@ -142,12 +157,12 @@ addToCartItem()
 
 Search.addEventListener("click", function () {
   searchValue = document.getElementById("searchValue").value;
-  window.alert(searchValue);
   location.href = "/Searching.html";
   // 3lashan fi key up fa mardetsh a3'er a7ot
   if (localStorage.getItem("searchResult")) {
     localStorage.removeItem("searchResult");
   }
+
   for (let i = 0; i < products.length; i++) {
     if (dropdownSearch.value == 0 && searchValue != "") {
       if (products[i].title.toLowerCase().includes(searchValue.toLowerCase())) {
@@ -164,6 +179,7 @@ Search.addEventListener("click", function () {
   localStorage.setItem("searchResult", JSON.stringify(SearchResult));
 });
 async function getProducts() {
+	console.log("33333")
   let displayProducts = document.getElementById("displayProducts");
   const response = await fetch("http://localhost:3000/product");
   let getProducts = await response.json();
@@ -221,10 +237,16 @@ function addTowishList(id) {
 }
 let listOfcart = [];
 function addToCart(id) {
-  addToCartItem(id);
-  listOfcart.push(id);
-  localStorage.setItem("cartList", JSON.stringify(listOfcart));
-  console.log(listOfcart);
+  if(!localStorage.getItem("authToken")&&!localStorage.getItem("userName")){
+    window.alert("please login first");
+    window.location.href="/login.html";
+  }else{
+    addToCartItem(id);
+    listOfcart.push(id);
+    localStorage.setItem("cartList", JSON.stringify(listOfcart));
+    console.log(listOfcart);
+  }
+
 }
 
 (function ($) {
