@@ -3,6 +3,7 @@ let menuClick = document.getElementById("menuClick");
 // const Authentication = 
 
 const Authorization = localStorage.getItem("authToken");
+console.log(Authorization)
 let Search = document.getElementById("Search");
 let dropdownSearch = document.getElementById("dropdownSearch");
 let products;
@@ -27,9 +28,8 @@ async function getCart() {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authentication: Authentication,
+        Authorization:`Bearer `+ Authorization,
   
-        Authorization: Authorization,
       },
     });
     const content = await rawResponse.json();
@@ -54,7 +54,8 @@ async function getCart() {
 
 }
 async function cartPopUp() {
-  if(Authentication==null){
+ 
+  if(Authorization==null){
     window.alert("please login first");
     window.location.href="/login.html";
   }else{
@@ -66,7 +67,7 @@ async function cartPopUp() {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: Authorization,
+      Authorization:`Bearer `+ Authorization,
     },
   });
   console.log('rawResponse')
@@ -114,8 +115,7 @@ async function getCartItemsCount() {
 	  headers: {
 		Accept: "application/json",
 		"Content-Type": "application/json",
-		Authentication: Authentication,
-		Authorization: Authorization,
+		Authorization:`Bearer `+ Authorization,
 	  },
 	});
 	const content = await rawResponse.json();
@@ -138,13 +138,15 @@ async function addToCartItem(productId) {
       Accept: "application/json",
       "Content-Type": "application/json",
      
-      Authorization: Authorization,
+      Authorization:`Bearer `+ Authorization,
     },
+ 
     body: JSON.stringify({
       product: productId,
       itemsCount: 1,
     }),
   });
+  console.log('rawResponse222222')
   const content = await rawResponse.json();
   let cartProducts = content.result.products;
   let productsCount = 0;
