@@ -298,40 +298,41 @@ function handleLogout(event) {
 
 
 
-//login with google
-// Load the Google API client library
-gapi.load('auth2', () => {
-  gapi.auth2.init({
-    client_id: '792002934801-9oe7b3563fitfaanqqgv179kksrmhqrp.apps.googleusercontent.com',
-  });
-  
-  // Attach event listener to the "Login with Google" button
-  document.getElementById('googleLoginButton').addEventListener('click', async () => {
-    try {
-      const authResponse = await gapi.auth2.getAuthInstance().signIn();
-      const idToken = authResponse.getAuthResponse().id_token;
-  
-      // Send the Google ID token to your backend
-      const response = await fetch('http://localhost:3000/google-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idToken }),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
-  
-      const data = await response.json();
-      // Handle successful login response
+function handleCredentialResponse(response) {
+  if (response && response.credential) {
+    // Get the Google Sign-In credential (ID token) from the response
+    const idToken = response.credential;
+
+    // You can send this ID token to your server for further authentication and processing
+    // Example: Send the ID token to your server using an HTTP request
+    fetch('http://localhost:3000/google-login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idToken }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Handle the response from your server
       console.log(data);
-    } catch (error) {
-      // Handle login error
-      console.error(error.message);
-    }
-  });
-});
+      // Save the token and user name to local storage
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userName', data.user.name);
+      }
+
+      // Redirect the user to their dashboard or another page
+      // Replace '/dashboard' with the actual URL you want to redirect to
+      window.location.href = '/index.html';
+    })
+    .catch(error => {
+      // Handle any errors that occurred during the request
+      console.error('Error:', error);
+    });
+  }
+}
+
+
+
 

@@ -16,9 +16,9 @@ router.get('/category', categoriesController.getAllCategories);
 router.get('/category/:categoryId', categoriesController.getCategoryById);
 
 // Update a category by ID
-router.put('category/:categoryId', authorization.verifyAccess(constants.Actions.updateCategory), categoriesController.updateCategoryById);
+router.put('/category/:categoryId', authorization.verifyAccess(constants.Actions.updateCategory), categoriesController.updateCategoryById);
 
 // Delete a category by ID
-router.delete('category/:categoryId', authorization.verifyAccess(constants.Actions.deleteCategory), categoriesController.deleteCategoryById);
+router.delete('/category/:categoryId', authorization.verifyAccess(constants.Actions.deleteCategory), categoriesController.deleteCategoryById);
 
 module.exports = router;

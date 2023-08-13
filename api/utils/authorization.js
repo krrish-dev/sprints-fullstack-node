@@ -74,8 +74,13 @@ function checkAuthorization(req, res, action){
 }
 
 
-const generateAccessToken = (userId, userRole) => {
-  return jwt.sign({ userId, userRole }, GOOGLE_CLIENT_SECRET, { expiresIn: '1h' });
+const generateAccessToken = (user) => {
+  // Create a JWT token with user information
+  return jwt.sign(
+    { userId: user._id, userRole: user.userRole, cartId: user.cartId },
+    process.env.JWT_SECRET,
+    // Add any additional options as needed, e.g., expiresIn: '1h'
+  );
 };
 
 const loginUserWithGoogle = async (req, res) => {
