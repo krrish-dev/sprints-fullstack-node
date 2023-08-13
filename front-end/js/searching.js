@@ -1,6 +1,5 @@
 let x =document.getElementById('displaySearchProducts')
 let searchResult= JSON.parse(localStorage.getItem('searchResult')) 
-
 function getProduct(){
 	console.log(searchResult+"eee")
 	if(searchResult==null){

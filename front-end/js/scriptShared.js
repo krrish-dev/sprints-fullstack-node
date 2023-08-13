@@ -242,12 +242,13 @@ function addToCart(id) {
   if(!localStorage.getItem("authToken")&&!localStorage.getItem("userName")){
     window.alert("please login first");
     window.location.href="/login.html";
-  }else{
-    addToCartItem(id);
-    listOfcart.push(id);
-    localStorage.setItem("cartList", JSON.stringify(listOfcart));
-    console.log(listOfcart);
   }
+  // else{
+  //   addToCartItem(id);
+  //   listOfcart.push(id);
+  //   localStorage.setItem("cartList", JSON.stringify(listOfcart));
+  //   console.log(listOfcart);
+  // }
 
 }
 
