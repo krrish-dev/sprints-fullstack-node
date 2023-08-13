@@ -1,3 +1,4 @@
+//models/cartModel.js
 const Cart = require('../schemas/cart');
 const Product = require('../schemas/product');
 

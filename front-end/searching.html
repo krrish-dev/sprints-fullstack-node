@@ -122,9 +122,12 @@
                 <div>
 
                     <ul class="navBarList ">
-                        <li><span><i class="fa-solid fa-dollar-sign"></i></span> USD</li>
-
-                        <li class="navBarListRightLi"><span><i class="fa-regular fa-user"></i></span> My Account</li>
+                        <li class="navBarListRightLi">
+                            <span><i class="fa-regular fa-user"></i></span>
+                            <span id="userNamePlaceholder">My Account</span>
+                            <a href="#" id="logoutLink" style="margin-left: 10px; color: white;">Logout</a>
+                            <a href="/login.html" id="loginLink" style="margin-left: 10px; color: white; display: none;">Login</a>
+                        </li>
 
                     </ul>
                 </div>
@@ -330,6 +333,7 @@
     <script src="js/searching.js" crossorigin="anonymous"></script>
     <!-- <script src="./js/scriptShared.js" crossorigin="anonymous"></script> -->
     <!-- <script src="./js/script.js" crossorigin="anonymous"></script> -->
+    <script src="./js/frontend-k.js"></script>
 
 
 </body>
