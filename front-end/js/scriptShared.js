@@ -75,7 +75,9 @@ async function cartPopUp() {
   let item = content.result.products;
   let totalPrice=0
   if(item.length > 0) {
+    console.log(item)
   for (let i = 0; i < item.length; i++) {
+    let id =item[i].product._id
 	let totalPricePerItem=item[i].itemsCount*item[i].product.price
 	 totalPrice=totalPricePerItem+totalPrice
     data += `
@@ -87,7 +89,7 @@ async function cartPopUp() {
 		   <div style="width: 75%;">
 			   <h6  style=" text-align: start;">name: ${item[i].product.title}</h6>
 			   <h6  style=" text-align: start;">price: ${item[i].product.price}</h6>
-			   <h6  style=" text-align: start;">X${item[i].itemsCount}</h6>
+			   <h6 id="counterId${id}" style=" text-align: start;"><span><button onclick="incCart('${id}','${item[i].itemsCount}')">+</button></span> X${item[i].itemsCount}<span><button onclick="DelCart('${id}','${item[i].itemsCount}')">-</button></span> </h6>
 			   <h6  style=" text-align: start;">total :${totalPricePerItem}</h6>
 		   </div>
 		   <div class="cart-line"></div>
@@ -104,6 +106,71 @@ async function cartPopUp() {
   document.getElementById("popUp").innerHTML = data;
   document.getElementById("popUp").style.display = "block";
 }
+}
+// async function DelCart(id,counter){
+//   let counterItem =counter-1
+//   console.log(counterItem+"fff")
+// 	const rawResponse = await fetch("http://localhost:3000/cartItem", {
+// 	  method: "PUT",
+// 	  headers: {
+// 		Accept: "application/json",
+// 		"Content-Type": "application/json",
+// 		Authorization:`Bearer `+ Authorization,
+// 	  },
+//      body: JSON.stringify({
+//       count:  counterItem,
+//       productId: id,
+//     }),
+// 	});
+// 	const content = await rawResponse.json();
+//   console.log(content)
+// }
+async function DelCart(id,counter){
+  let counterItem =counter-1
+  console.log(counterItem+"fff")
+	const rawResponse = await fetch("http://localhost:3000/cartItem", {
+	  method: "PUT",
+	  headers: {
+		Accept: "application/json",
+		"Content-Type": "application/json",
+		Authorization:`Bearer `+ Authorization,
+	  },
+     body: JSON.stringify({
+      count:  counterItem,
+      productId: id,
+    }),
+	});
+	const content = await rawResponse.json();
+  console.log(content)
+  document.getElementById("counterId"+id).innerHTML = 
+  `<span><button 
+  onclick="incCart('${id}','${counterItem}')">+</button></span> 
+  X${counterItem}<span><button onclick="DelCart('${id}','${counterItem}')">-</button></span>
+  `;
+}
+async function incCart(id,counter){
+
+	let counterItem =  Number(counter)+1
+  console.log(counterItem+"fff")
+	const rawResponse = await fetch("http://localhost:3000/cartItem", {
+	  method: "PUT",
+	  headers: {
+		Accept: "application/json",
+		"Content-Type": "application/json",
+		Authorization:`Bearer `+ Authorization,
+	  },
+     body: JSON.stringify({
+      count:  counterItem,
+      productId: id,
+    }),
+	});
+	const content = await rawResponse.json();
+  console.log(content)
+  document.getElementById("counterId"+id).innerHTML = 
+  `<span><button 
+  onclick="incCart('${id}','${counterItem}')">+</button></span> 
+  X${counterItem}<span><button onclick="DelCart('${id}','${counterItem}')">-</button></span>
+  `;
 }
 async function getCartItemsCount() {
   
@@ -131,13 +198,12 @@ function closePopUp() {
   document.getElementById("popUp").style.display = "none";
 }
 async function addToCartItem(productId) {
-    
+  console.log('content')
   const rawResponse = await fetch("http://localhost:3000/cartItem", {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-     
       Authorization:`Bearer `+ Authorization,
     },
  
@@ -146,9 +212,10 @@ async function addToCartItem(productId) {
       itemsCount: 1,
     }),
   });
-  console.log('rawResponse222222')
+ 
   const content = await rawResponse.json();
   let cartProducts = content.result.products;
+  
   let productsCount = 0;
   for (let i = 0; i < cartProducts.length; i++) {
     productsCount = cartProducts[i].itemsCount + productsCount;
@@ -243,12 +310,12 @@ function addToCart(id) {
     window.alert("please login first");
     window.location.href="/login.html";
   }
-  // else{
-  //   addToCartItem(id);
-  //   listOfcart.push(id);
-  //   localStorage.setItem("cartList", JSON.stringify(listOfcart));
-  //   console.log(listOfcart);
-  // }
+  else{
+    addToCartItem(id);
+    listOfcart.push(id);
+    localStorage.setItem("cartList", JSON.stringify(listOfcart));
+    console.log(listOfcart);
+  }
 
 }
 
@@ -355,69 +422,69 @@ function addToCart(id) {
   if (zoomMainProduct) {
     $("#product-main-img .product-preview").zoom();
   }
-
+})
   /////////////////////////////////////////
 
   // Input number
-  $(".input-number").each(function () {
-    var $this = $(this),
-      $input = $this.find('input[type="number"]'),
-      up = $this.find(".qty-up"),
-      down = $this.find(".qty-down");
+//   $(".input-number").each(function () {
+//     var $this = $(this),
+//       $input = $this.find('input[type="number"]'),
+//       up = $this.find(".qty-up"),
+//       down = $this.find(".qty-down");
 
-    down.on("click", function () {
-      var value = parseInt($input.val()) - 1;
-      value = value < 1 ? 1 : value;
-      $input.val(value);
-      $input.change();
-      updatePriceSlider($this, value);
-    });
+//     down.on("click", function () {
+//       var value = parseInt($input.val()) - 1;
+//       value = value < 1 ? 1 : value;
+//       $input.val(value);
+//       $input.change();
+//       updatePriceSlider($this, value);
+//     });
 
-    up.on("click", function () {
-      var value = parseInt($input.val()) + 1;
-      $input.val(value);
-      $input.change();
-      updatePriceSlider($this, value);
-    });
-  });
+//     up.on("click", function () {
+//       var value = parseInt($input.val()) + 1;
+//       $input.val(value);
+//       $input.change();
+//       updatePriceSlider($this, value);
+//     });
+//   });
 
-  var priceInputMax = document.getElementById("price-max"),
-    priceInputMin = document.getElementById("price-min");
+//   var priceInputMax = document.getElementById("price-max"),
+//     priceInputMin = document.getElementById("price-min");
 
-  priceInputMax.addEventListener("change", function () {
-    updatePriceSlider($(this).parent(), this.value);
-  });
+//   priceInputMax.addEventListener("change", function () {
+//     updatePriceSlider($(this).parent(), this.value);
+//   });
 
-  priceInputMin.addEventListener("change", function () {
-    updatePriceSlider($(this).parent(), this.value);
-  });
+//   priceInputMin.addEventListener("change", function () {
+//     updatePriceSlider($(this).parent(), this.value);
+//   });
 
-  function updatePriceSlider(elem, value) {
-    if (elem.hasClass("price-min")) {
-      console.log("min");
-      priceSlider.noUiSlider.set([value, null]);
-    } else if (elem.hasClass("price-max")) {
-      console.log("max");
-      priceSlider.noUiSlider.set([null, value]);
-    }
-  }
+//   function updatePriceSlider(elem, value) {
+//     if (elem.hasClass("price-min")) {
+//       console.log("min");
+//       priceSlider.noUiSlider.set([value, null]);
+//     } else if (elem.hasClass("price-max")) {
+//       console.log("max");
+//       priceSlider.noUiSlider.set([null, value]);
+//     }
+//   }
 
-  // Price Slider
-  var priceSlider = document.getElementById("price-slider");
-  if (priceSlider) {
-    noUiSlider.create(priceSlider, {
-      start: [1, 999],
-      connect: true,
-      step: 1,
-      range: {
-        min: 1,
-        max: 999,
-      },
-    });
+//   // Price Slider
+//   var priceSlider = document.getElementById("price-slider");
+//   if (priceSlider) {
+//     noUiSlider.create(priceSlider, {
+//       start: [1, 999],
+//       connect: true,
+//       step: 1,
+//       range: {
+//         min: 1,
+//         max: 999,
+//       },
+//     });
 
-    priceSlider.noUiSlider.on("update", function (values, handle) {
-      var value = values[handle];
-      handle ? (priceInputMax.value = value) : (priceInputMin.value = value);
-    });
-  }
-})(jQuery);
+//     priceSlider.noUiSlider.on("update", function (values, handle) {
+//       var value = values[handle];
+//       handle ? (priceInputMax.value = value) : (priceInputMin.value = value);
+//     });
+//   }
+// })(jQuery);
