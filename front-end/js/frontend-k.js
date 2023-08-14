@@ -15,6 +15,7 @@ function togglePasswordVisibility(fieldId) {
 
   
   function setTokenFromQueryParams() {
+    console.log("Here in login");
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const tokenInput = document.getElementById('token');
@@ -26,6 +27,7 @@ function togglePasswordVisibility(fieldId) {
   let errorMessageCreated = false;
 
   async function handleLoginSubmit(event) {
+    console.log("Here in the login");
     event.preventDefault();
   
     const formData = new FormData(event.target);

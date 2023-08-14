@@ -4,7 +4,7 @@ const Product = require('../schemas/product');
 const userModel = require('../services/userService');
 const { response } = require('express');
 const stripe = require('stripe')('sk_test_51NZf7MIVT2r7id06eE3eJ5gjkAhl8v9IJEYDFHBjU3YjFj2OXCti7MhWBdG9xwqzDdmsjZekdOMdmxqBXd4CXcJV00kkyMohy5');
-const TEMP_DOMAIN = "http://localhost:3000";
+const TEMP_DOMAIN = "http://127.0.0.1:5500/";
 const PAYMENT_METHOD = {
   cod: 'COD',
   card: "CARD"
@@ -34,8 +34,8 @@ async function beginPaymentSession(cart, orderInfo) {
   const session = await stripe.checkout.sessions.create({
     line_items: itemsList,
     mode: 'payment',
-    success_url: `${TEMP_DOMAIN}`,
-    cancel_url: `${TEMP_DOMAIN}`,
+    success_url: `${TEMP_DOMAIN}success.html`,
+    cancel_url: `${TEMP_DOMAIN}cancel.html`,
   }).catch(err => {
     response.success = false;
     response.message = "Error occurred while creating payment session";

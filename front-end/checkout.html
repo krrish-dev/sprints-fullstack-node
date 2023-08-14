@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
+<body onload="checkoutManager.onCheckoutLoading()">
     <div style="background-color: #1E1F29">
         <nav class="container ">
             <div class="d-flex" style="justify-content: space-between; align-items: center;">
@@ -173,6 +173,9 @@
                             </div>
                         </div>
                     </div>
+                    <div id="errorSection" style="color: rgb(133, 10, 10);">
+
+                    </div>
                     <!-- /Billing Details -->
 
                     <div class="shiping-details">
@@ -233,15 +236,8 @@
                             <div><strong>PRODUCT</strong></div>
                             <div><strong>TOTAL</strong></div>
                         </div>
-                        <div class="order-products">
-                            <div class="center-ele ">
-                                <div>1x Product Name Goes Here</div>
-                                <div>$980.00</div>
-                            </div>
-                            <div class="center-ele">
-                                <div>2x Product Name Goes Here</div>
-                                <div>$980.00</div>
-                            </div>
+                        <div class="order-products" id="cartProductsList">
+                            
                         </div>
                         <div class="center-ele">
                             <div>Shiping</div>
@@ -249,33 +245,27 @@
                         </div>
                         <div class="center-ele">
                             <div><strong>TOTAL</strong></div>
-                            <div><strong class="order-total">$2940.00</strong></div>
+                            <div><strong class="order-total" id="orderTotal">$2940.00</strong></div>
                         </div>
                     </div>
                     <div class="payment-method">
                         <div class="input-radio">
-                            <input type="radio" name="payment" id="payment-label" class="directBankCaptionbtn">
-                            <label for="payment-1">
-
-                                Direct Bank Transfer
-                            </label>
+                            <input type="radio" name="payment" id="payment-label" class="directBankCaptionbtn" onchange="checkoutManager.paymentMethodUpdate(this, 'COD')">
+                            <label for="payment-1"> Cash On Delivary </label>
                             <div class="direct-bank-caption paymentCaption" id="directBankCaption">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua.</p>
                             </div>
                         </div>
                         <div class="input-radio">
-                            <input type="radio" name="payment" id="payment-label">
-                            <label for="payment-2">
-
-                                Cheque Payment
-                            </label>
+                            <input type="radio" name="payment" id="payment-label" onchange="checkoutManager.paymentMethodUpdate(this, 'CARD')">
+                            <label for="payment-2"> Card </label>
                             <div class="check-caption paymentCaption" id="checkCaption">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua.</p>
                             </div>
                         </div>
-                        <div class="input-radio">
+                        <div class="input-radio" style="display: none;">
                             <input type="radio" name="payment" id="payment-label">
                             <label for="payment-3">
 
@@ -294,22 +284,14 @@
                             I've read and accept the <a href="#">terms &amp; conditions</a>
                         </label>
                     </div>
-
-
                 </div>
                 <div class="btnContainer">
-                    <button class="place-order-btn"> <a href="#" class="primary-btn order-submit">Place order</a>
+                    <button class="place-order-btn" onclick="checkoutManager.makeOrder()"> 
+                        <a href="#" class="primary-btn order-submit" style="text-decoration: none; color: aliceblue;">Place order</a>
                     </button>
                 </div>
                 <!-- Shiping Details -->
-
-
-
-
             </div>
-
-
-
         </div>
     </section>
     <!-- ---------Footer-------- -->
@@ -404,6 +386,9 @@
 
     </footer>
     <!-- ---------Footer-------- -->
+    <script src="./js/services/localDataManager.js"></script>
+    <script src="./js/services/apis.js"></script>
+    <script src="./js/services/services.js"></script>
     <script src="./js/product.js"></script>
     <script src="./js/checkout.js"></script>
     <script src="./js/frontend-k.js"></script>
