@@ -153,13 +153,49 @@ function togglePasswordVisibility(fieldId) {
       }
   
       const data = await response.json();
-      // Handle the successful password reset request here
       console.log(data);
+  
+      // Get the element by ID
+      const messageElement = document.getElementById('message');
+  
+      // Set styles and message content for success
+      messageElement.style.display = 'block';
+      messageElement.style.backgroundColor = 'green';
+      messageElement.style.color = 'white';
+      messageElement.style.padding = '10px';
+      messageElement.style.marginTop = '10px';
+      messageElement.style.borderRadius = '5px';
+  
+      if (data.message === 'User not found') {
+        messageElement.innerHTML = 'User not found. Please check your email address.';
+      } else {
+        messageElement.innerHTML = 'Password reset email sent successfully. Please check your email.';
+      }
+  
+      // Hide the form
+      const formElement = document.getElementById('forgotPasswordForm');
+      formElement.style.display = 'none';
+  
     } catch (error) {
-      // Handle any errors that occur during the password reset process
+      // Handle errors during the password reset process
       console.error(error.message);
+  
+      // Get the element by ID
+      const messageElement = document.getElementById('message');
+  
+      // Set styles and message content for error
+      messageElement.style.display = 'block';
+      messageElement.style.backgroundColor = 'orange';
+      messageElement.style.color = 'white';
+      messageElement.style.padding = '10px';
+      messageElement.style.marginTop = '10px';
+      messageElement.style.borderRadius = '5px';
+      messageElement.innerHTML = 'user Email not found . Please try again later.';
     }
   }
+  
+  
+  
   
   async function handleResetPasswordSubmit(event) {
     event.preventDefault();

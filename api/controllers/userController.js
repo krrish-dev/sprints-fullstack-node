@@ -65,6 +65,12 @@ const forgotPassword = async (req, res) => {
   try {
     const { email } = forgotPasswordSchema.parse(req.body);
 
+    // Check if the user exists
+    const user = await userService.getUserByEmail(email);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     // Generate a unique password reset token
     const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '15m' });
 
@@ -79,6 +85,7 @@ const forgotPassword = async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 };
+
 
 const resetPassword = async (req, res) => {
   try {
