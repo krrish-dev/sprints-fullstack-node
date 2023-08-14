@@ -17,10 +17,11 @@ Before getting started, make sure you have the following prerequisites:
 
 To set up and run the project on your local machine, follow these steps:
 
-1. Clone the repository to your local machine:
+1- using strip for test payment 
+    https://stripe.com/docs/testing
+
+2. Clone the repository to your local machine:
    ```sh
    git clone https://github.com/your-username/sprints-fullstack-node.git
 
-2- using strip for test payment 
-    ```
-    https://stripe.com/docs/testing
+
