@@ -33,7 +33,7 @@ function togglePasswordVisibility(fieldId) {
     const formData = new FormData(event.target);
     const email = formData.get('email');
     const password = formData.get('password');
-  
+    dm.saveValue('email',email);
     try {
       const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
