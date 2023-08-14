@@ -105,7 +105,8 @@ async function cartPopUp() {
           </div>`;
   
         } else {
-          data = `<h1>No products</h1>`;
+          data = `<h1>No products</h1> <br>
+          <button class="btn-close" onclick="closePopUp()">Close</button>`;
         }
   
         document.getElementById("popUp").innerHTML = data;
