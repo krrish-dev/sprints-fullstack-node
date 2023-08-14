@@ -106,6 +106,7 @@ class CheckoutManager {
       this.#showMessage("Empty Cart!");
       return;
     }
+    console.log(response);
     this.cartItems = response.result.products;
     this.orderTotalRef.innerHTML = `$ ${response.result.total.toLocaleString()}`;
     this.#showCartItems();

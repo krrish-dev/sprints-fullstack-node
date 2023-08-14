@@ -2,7 +2,7 @@ class Services {
     #token;
     #baseUrl;
     constructor(){
-        this.#token = dm.getString('token');
+        this.#token = dm.getString('authToken');
         this.#baseUrl = "http://localhost:3000/"
     }
     setBaseUrl(baseUrl){
